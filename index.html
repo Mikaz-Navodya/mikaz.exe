@@ -129,17 +129,22 @@
 
 .progress-ring {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform: rotate(-90deg);
-  z-index: 2001;
   pointer-events: none;
 }
 
 .progress-ring__circle {
+  stroke: #00bfff;
+  stroke-width: 4;
+  stroke-dasharray: 283;        /* 2πr → 2 * 3.14 * 45 */
+  stroke-dashoffset: 283;
   transition: stroke-dashoffset 1.5s ease-in-out;
   transform-origin: 50% 50%;
 }
+
 
 /* ===== Education Tech Card ===== */
 .edu-container {
@@ -624,17 +629,26 @@ header h1 {
   }
 
   .cv-fab-container {
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
+    width: 56px;
+    height: 56px;
   }
 
   .cv-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 0.9rem;
+    width: 44px;
+    height: 44px;
+    font-size: 0.85rem;
   }
+  
+ 
+  .music-btn {
+    padding: 6px 10px;
+    font-size: 1.1rem;
+  }
+
+  .music-btn::after {
+    content: "";
+  }
+
 
   .photo-wrapper {
     width: 160px;
@@ -689,18 +703,16 @@ header h1 {
 </div>
 
 <div class="cv-fab-container" onclick="downloadCV()">
-  <svg class="progress-ring" width="70" height="70">
-     <circle 
-       class="progress-ring__circle" 
-       stroke="#00bfff" 
-       stroke-width="4" 
-       fill="transparent" 
-       r="32" 
-       cx="35" 
-       cy="35"
-       style="stroke-dasharray: 201; stroke-dashoffset: 201;"
-     />
-  </svg>
+  <svg class="progress-ring" viewBox="0 0 100 100">
+  <circle
+    class="progress-ring__circle"
+    cx="50"
+    cy="50"
+    r="45"
+    fill="transparent"
+  />
+</svg>
+
   <div class="cv-btn">CV</div>
 </div>
 
@@ -883,11 +895,11 @@ const musicBtn = document.getElementById("music-control");
 function toggleMusic() {
   if (audio.paused) {
     audio.play();
-    musicBtn.innerHTML = "[ 🔊 MUSIC: ON ]";
+    musicBtn.innerHTML =  window.innerWidth <= 480 ? "🔊" : "[ 🔊 MUSIC: ON ]";
     musicBtn.classList.remove("muted");
   } else {
     audio.pause();
-    musicBtn.innerHTML = "[ 🔇 MUSIC: OFF ]";
+    musicBtn.innerHTML =   window.innerWidth <= 480 ? "🔇" : "[ 🔇 MUSIC: OFF ]";
     musicBtn.classList.add("muted");
   }
 }
@@ -905,7 +917,7 @@ function downloadCV() {
     btn.textContent = "DONE";
     window.open('#', '_blank'); 
     setTimeout(() => {
-      circle.style.strokeDashoffset = '201'; 
+      circle.style.strokeDashoffset = '283'; 
       btn.textContent = "CV";
       btn.style.boxShadow = '0 0 10px rgba(0, 191, 255, 0.4)';
     }, 2000);
@@ -991,10 +1003,12 @@ const skillData = {
 };
 
 function makeBar(percent) {
-  const total = 25;
+  const isMobile = window.innerWidth <= 480;
+  const total = isMobile ? 16 : 25;
   const filled = Math.round((percent / 100) * total);
   return "#".repeat(filled) + "-".repeat(total - filled);
 }
+
 
 function toggleSkill(element, id) {
   const box = document.getElementById(id);
