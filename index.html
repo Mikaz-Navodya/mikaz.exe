@@ -527,6 +527,149 @@ header h1 {
   font-size: 0.9rem;
   line-height: 1.6;
 }
+/* ================= MOBILE RESPONSIVE FIXES ================= */
+@media (max-width: 1024px) {
+  section {
+    padding: 60px 6%;
+  }
+
+  header h1 {
+    font-size: 2.6rem;
+  }
+
+  .projects-container {
+    padding: 60px 30px 30px;
+  }
+}
+
+/* ================= TABLET & MOBILE ================= */
+@media (max-width: 768px) {
+
+  header {
+    padding: 25px 10px;
+  }
+
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  .profile {
+    padding: 40px 6%;
+  }
+
+  .photo-wrapper {
+    width: 190px;
+    height: 210px;
+  }
+
+  .command-box {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .output {
+    min-height: 120px;
+  }
+
+  section {
+    padding: 50px 6%;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .skill-details {
+    max-width: 100%;
+  }
+
+  .projects-container {
+    gap: 20px;
+    height: auto;
+    padding: 40px 15px;
+  }
+
+  .project-card {
+    min-width: 240px;
+    height: auto;
+  }
+
+  .mech-card {
+    padding: 30px 20px 25px 25px;
+  }
+
+  .edu-card {
+    padding: 25px 15px 20px 25px;
+  }
+
+  .edu-title,
+  .edu-desc {
+    margin-left: 10px;
+  }
+}
+
+/* ================= SMALL MOBILE PHONES ================= */
+@media (max-width: 480px) {
+
+  header h1 {
+    font-size: 1.9rem;
+  }
+
+  .music-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .cv-fab-container {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .cv-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 0.9rem;
+  }
+
+  .photo-wrapper {
+    width: 160px;
+    height: 180px;
+  }
+
+  .command-box {
+    padding: 14px;
+  }
+
+  .output {
+    font-size: 0.85rem;
+  }
+
+  .projects-container {
+    padding: 30px 10px;
+  }
+
+  .project-card {
+    min-width: 220px;
+  }
+
+  .mech-badge-outer {
+    transform: scale(0.85);
+  }
+
+  .edu-bar {
+    font-size: 0.75rem;
+  }
+
+  canvas {
+    filter: blur(1px);
+  }
+}
+
 </style>
 </head>
 
@@ -810,6 +953,7 @@ function typeSplash() {
   }
 }
 
+
 function endSplash() {
   document.removeEventListener("keydown", endSplash);
   document.removeEventListener("click", endSplash);
@@ -884,7 +1028,10 @@ function toggleSkill(element, id) {
     }, 15);
   });
 }
-
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 /* ===== Matrix Rain ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
