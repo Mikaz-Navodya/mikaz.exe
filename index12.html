@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hacker Portfolio | Nuvindya</title>
+<title>Mikaz.exe</title>
 
 <style>
 * {
@@ -357,6 +357,8 @@ header h1 {
 
 .skill-item:hover {
   color: #66ccff;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  background: rgba(0, 191, 255, 0.1);
 }
 
 .skill-details {
@@ -378,7 +380,7 @@ header h1 {
   white-space: pre;
 }
 
-/* ===== Projects Scroll Cards ===== */
+/* ===== Projects Scroll Cards (UPDATED WITH IMAGES) ===== */
 .projects-container {
   display: flex;
   gap: 25px;
@@ -397,31 +399,85 @@ header h1 {
 
 .project-card {
   min-width: 260px;
-  background: rgba(0, 0, 0, 0.8);
+  /* Use relative positioning for the overlay */
+  position: relative;
+  background-color: black;
   border: 1px solid #00bfff;
   padding: 20px;
   box-shadow: 0 0 15px rgba(0,191,255,0.6);
   transition: all 0.3s ease;
   cursor: pointer;
   height: 340px;
+  /* Ensure image covers area and stays within border */
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
+/* The Dark Overlay */
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Darker at top (0.9) to make text visible, lighter at bottom (0.4) */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+/* Text must be above the overlay (z-index 2) */
 .project-card h3 {
+  position: relative;
+  z-index: 2;
   color: #00bfff;
   margin-bottom: 10px;
   text-shadow: 0 0 10px #00bfff;
 }
 
 .project-card p {
+  position: relative;
+  z-index: 2;
   font-size: 0.9rem;
-  color: #66ccff;
+  color: #b3e6ff; /* Slightly brighter text for contrast on image */
   line-height: 1.4;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px black; /* Add shadow to ensure readability */
 }
 
 .project-card:hover {
   transform: translateY(-8px) scale(1.03);
   box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
 }
+
+.project-card:hover::before {
+  /* Slightly lighten the overlay on hover */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+/* --- Placeholder Images for Cards --- */
+/* Using generic tech/coding backgrounds */
+.img-game {
+  background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=600&q=80');
+}
+.img-web {
+  background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=600&q=80');
+}
+.img-erp {
+  background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80');
+}
+.img-ai {
+  background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80');
+}
+.img-nlp {
+  background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=600&q=80');
+}
+.img-ml {
+  background-image: url('https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&w=600&q=80');
+}
+
 
 /* ===== Experience Tech Frame Styles ===== */
 .mech-container {
@@ -595,72 +651,13 @@ header h1 {
     padding: 40px 15px;
   }
 
-/* ===== UPDATED PROJECTS SECTION ===== */
-
-/* Update the card container to be flexible with height */
-.project-card {
-  min-width: 280px;  /* Slightly wider to fit images better */
-  width: 280px;      /* Fixed width for consistency in scroll */
-  background: rgba(0, 0, 0, 0.9); /* Darker background for contrast */
-  border: 1px solid #00bfff;
-  padding: 0;        /* Remove padding from container to let image sit flush */
-  box-shadow: 0 0 15px rgba(0,191,255,0.3);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  /* Remove fixed height to allow content to dictate size, 
-     or use min-height for uniformity */
-  min-height: 400px; 
-  overflow: hidden; /* Keeps image inside border radius if you add it */
-}
-
-/* New Image Styling */
-.project-img {
-  width: 100%;
-  height: 160px;       /* Fixed height for uniformity */
-  object-fit: cover;   /* Ensures image covers area without stretching */
-  border-bottom: 1px solid #00bfff; /* Separator line */
-  filter: grayscale(100%) contrast(1.2); /* Cyberpunk effect: B&W initially */
-  transition: all 0.3s ease;
-}
-
-/* Content wrapper to add padding back to text only */
-.project-content {
-  padding: 20px;
-  flex-grow: 1; /* Pushes content to fill space */
-  display: flex;
-  flex-direction: column;
-}
-
-.project-card h3 {
-  color: #00bfff;
-  margin-bottom: 10px;
-  text-shadow: 0 0 10px #00bfff;
-  font-size: 1.1rem;
-}
-
-
   .project-card {
-    min-width: 260px;
-    width: 260px;
-    min-height: 380px;
-  }
-  
-  .project-img {
-    height: 140px; /* Slightly smaller image on tablet */
+    min-width: 240px;
+    height: auto;
+    /* Aspect ratio for mobile cards if needed */
+    min-height: 300px;
   }
 
-/* Hover Effects */
-.project-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
-  z-index: 10; /* Ensure it pops over others */
-}
-
-.project-card:hover .project-img {
-  filter: grayscale(0%); /* Reveal color on hover */
-}
   .mech-card {
     padding: 30px 20px 25px 25px;
   }
@@ -717,18 +714,9 @@ header h1 {
     padding: 30px 10px;
   }
 
-
   .project-card {
-    min-width: 85vw; /* Make card almost full width on small phones */
-    width: 85vw;
-    min-height: auto; /* Allow height to adjust naturally */
-    margin-right: 10px; /* Spacing between cards */
+    min-width: 220px;
   }
-
-  .project-img {
-    height: 180px; /* Larger image for better visibility on mobile */
-  }
-
 
   .mech-badge-outer {
     transform: scale(0.85);
@@ -816,55 +804,30 @@ header h1 {
 <section id="projects">
   <h2>> Projects</h2>
   <div class="projects-container">
-    
-    <div class="project-card" onclick="window.open('www.google.com', '_blank')">      
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Game+Dev" alt="Game Dev" class="project-img">
-      <div class="project-content">
-        <h3>> Game Development</h3>
-        <p>Unreal Engine, Unity, gameplay mechanics, level design.</p>
-      </div>
+    <div class="project-card img-game"onclick="window.open('gd_projects.html', '_blank')">
+      <h3>> Game Development</h3>
+      <p>Unreal Engine, Unity, gameplay mechanics, level design</p>
     </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Web+Hacking" alt="Web Dev" class="project-img">
-      <div class="project-content">
-        <h3>> Web Development</h3>
-        <p>HTML, CSS, JavaScript, interactive hacker UIs.</p>
-      </div>
+    <div class="project-card img-web"onclick="window.open('web_projects.html', '_blank')">
+      <h3>> Web Development</h3>
+      <p>HTML, CSS, JavaScript, interactive hacker UIs</p>
     </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=ERP+Systems" alt="ERP" class="project-img">
-      <div class="project-content">
-        <h3>> ERP Systems</h3>
-        <p>SAP fundamentals, business process modeling.</p>
-      </div>
+    <div class="project-card img-erp"onclick="window.open('erp_projects.html', '_blank')">
+      <h3>> ERP Systems</h3>
+      <p>SAP fundamentals, business process modeling</p>
     </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=AI+Vision" alt="AI" class="project-img">
-      <div class="project-content">
-        <h3>> AI Projects</h3>
-        <p>Computer vision, intelligent systems.</p>
-      </div>
+    <div class="project-card img-ai"onclick="window.open('ai_projects.html', '_blank')">
+      <h3>> AI Projects</h3>
+      <p>Computer vision, intelligent systems</p>
     </div>
-
-    <div class="project-card" >
-      <img src="https://placehold.co/600x400/000000/00bfff?text=NLP" alt="NLP" class="project-img">
-      <div class="project-content">
-        <h3>> NLP Projects</h3>
-        <p>Text processing, translation, sentiment analysis.</p>
-      </div>
+    <div class="project-card img-nlp"onclick="window.open('nlp_projects.html', '_blank')">
+      <h3>> NLP Projects</h3>
+      <p>Text processing, translation, sentiment analysis</p>
     </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Machine+Learning" alt="ML" class="project-img">
-      <div class="project-content">
-        <h3>> Machine Learning</h3>
-        <p>Prediction models, data analysis, automation.</p>
-      </div>
+    <div class="project-card img-ml"onclick="window.open('ml_projects.html', '_blank')">
+      <h3>> Machine Learning</h3>
+      <p>Prediction models, data analysis, automation</p>
     </div>
-
   </div>
 </section>
 
