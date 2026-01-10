@@ -6,6 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
+/* ===== GLOBAL STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -45,7 +46,7 @@ canvas {
   box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
   transition: all 0.3s ease;
   user-select: none;
-  display: block; /* Visible immediately */
+  display: block; 
 }
 
 .music-btn:hover {
@@ -139,7 +140,7 @@ header h1 {
   51%, 100% { opacity: 0; }
 }
 
-/* ===== SKILLS SECTION ===== */
+/* ===== PROJECT LIST SECTION ===== */
 section {
   padding: 20px 10%;
 }
@@ -151,38 +152,55 @@ h2 {
   text-shadow: 0 0 10px #00bfff;
 }
 
-.skill-item {
+.project-item {
   cursor: pointer;
-  margin: 10px 0;
+  margin: 15px 0;
   color: #00bfff;
   font-weight: bold;
   text-shadow: 0 0 8px #00bfff;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  transition: padding-left 0.2s ease;
 }
 
-.skill-item:hover {
+.project-item:hover {
   color: #66ccff;
-  border: 1px solid rgba(0, 191, 255, 0.3);
-  background: rgba(0, 191, 255, 0.1);
+  padding-left: 10px;
 }
 
-.skill-details {
+/* ===== PROJECT DETAILS PANEL ===== */
+.project-details {
   display: none;
   margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  color: #66ccff;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  color: #e0f7ff;
   border: 1px solid #00bfff;
-  padding: 15px;
+  padding: 20px;
   background: rgba(0, 0, 0, 0.9);
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
+  animation: slideDown 0.3s ease-out;
 }
 
-.progress-line {
-  margin: 6px 0;
-  white-space: pre;
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Project Image Styling */
+.project-img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #00bfff;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+  margin-bottom: 15px;
+  opacity: 0.9;
+}
+
+.project-desc {
+  line-height: 1.6;
+  text-align: justify;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -190,7 +208,7 @@ h2 {
   header { padding: 25px 10px; }
   header h1 { font-size: 2.2rem; }
   section { padding: 50px 6%; }
-  .skill-details { max-width: 100%; }
+  .project-details { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
@@ -201,7 +219,6 @@ h2 {
   }
   .cv-fab-container { width: 56px; height: 56px; }
   .cv-btn { width: 44px; height: 44px; font-size: 0.85rem; }
-  .progress-line { font-size: 0.8rem; }
   canvas { filter: blur(1px); }
 }
 </style>
@@ -236,18 +253,24 @@ h2 {
   <h1 class="cursor">> Mikaz.exe</h1>
 </header>
 
-<section id="skills">
+<section id="projects">
   <h2>> Machine Learning Projects</h2>
   
-  <div class="skill-item" onclick="toggleSkill(this,'web')">
-    ▸ Web Development
+  <div class="project-item" onclick="toggleProject(this, 'proj1')">
+    ▸ Build machine learning algorithms from scratch using python and numpy.
   </div>
-  <div class="skill-details" id="web"></div>
+  <div class="project-details" id="proj1"></div>
+
+  <div class="project-item" onclick="toggleProject(this, 'proj2')">
+    ▸ Student Performance Predictor - Group project
+  </div>
+  <div class="project-details" id="proj2"></div>
   
-  <div class="skill-item" onclick="toggleSkill(this,'game')">
-    ▸ Game Development
+  <div class="project-item" onclick="toggleProject(this, 'proj3')">
+    ▸ Mushroom Classification
   </div>
-  <div class="skill-details" id="game"></div>
+  <div class="project-details" id="proj3"></div>
+
 </section>
 
 <script>
@@ -255,7 +278,6 @@ h2 {
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
-// Initial check (music starts paused by browser policy usually)
 updateMusicBtnText();
 
 function updateMusicBtnText() {
@@ -300,66 +322,75 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== SKILLS LOGIC ===== */
-const skillData = {
-  web: [
-    { name: "HTML", level: 78 },
-    { name: "CSS", level: 48 }
-  ],
-  game: [
-    { name: "Unreal Engine", level: 89 },
-    { name: "Unity Engine", level: 2 }
-  ]
+/* ===== PROJECT DATA & LOGIC ===== */
+
+// Define your projects here
+const projectData = {
+  proj1: {
+    image: "images/project_images/Scrtch.png",
+    description:"<a href='https://github.com/Mikaz-Navodya/MachineLearningProjects/tree/main/MachineLearningTheory' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
+    <br><br>> This project demonstrates a my understanding of machine learning fundamentals by implementing key algorithms entirely from scratch, without relying on high-level libraries such as Scikit-learn. Using NumPy, Pandas, and Matplotlib, I developed and visualized several supervised, unsupervised, and anomaly detection models, including:\
+<br><br>- Linear Regression for predicting continuous outcomes \
+<br>- Logistic Regression for binary classification tasks \
+<br>- Decision Tree and Random Forest for classification and regression problems\
+<br>- Gaussian Naive Bayes for Classification problem \
+<br>- K-Nearest Neighbors (KNN) for instance-based learning \
+<br>- K-Means Clustering for unsupervised pattern discovery \
+<br>- Naive Bayes for text classification \
+<br>- Anomaly Detection using statistical and distance-based methods to identify outliers \
+<br><br>Tools & Technologies: NumPy, Pandas, Matplotlib, Jupyter Notebook "
+  },
+  proj2: {
+    image: "images/project_images/SPP.png",
+    description: "<a href='https://github.com/Mikaz-Navodya/Students-Performance-Predictor' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
+    <br><br>> A lightweight Streamlit app that predicts student exam performance from study habits and provides personalized advice. The project combines a pre-trained ML regressor (saved as model.pkl) with a rules-based recommendation engine and a context-aware sentiment feedback feature to support students.\
+    <br><br>Other Contributors :\
+    <br>- Oshini Sandunika\
+    <br>- Nilakshan Thejeswini"
+  },
+  proj3: {
+    image: "images/project_images/mushroom.png",
+    description: "<a href='https://github.com/Mikaz-Navodya/MachineLearningProjects/tree/main/StreamlitWebapp-MushroomClassifier'target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
+    <br><br>This project is an interactive machine learning web application built using Streamlit and Python. Its primary purpose is to perform binary classification on the Mushroom dataset to predict whether a specific mushroom is Edible or Poisonous.\
+    <br><br>Technical Stack\
+<br>- Language: Python\
+<br>- Web Framework: Streamlit\
+<br>- ML: Scikit-learn (SVC, LogisticRegression, RandomForestClassifier)\
+<br>- Data Manipulation: Pandas, NumPy\
+<br>- Visualization: Matplotlib"
+  }
 };
 
-function makeBar(percent, totalChars) {
-  const filled = Math.round((percent / 100) * totalChars);
-  return "#".repeat(filled) + "-".repeat(totalChars - filled);
-}
-
-function toggleSkill(element, id) {
+function toggleProject(element, id) {
   const box = document.getElementById(id);
-  const isMobile = window.innerWidth <= 480;
-  const barLength = isMobile ? 12 : 25;
-  const padLength = isMobile ? 10 : 14;
-
+  
+  // Close Logic
   if (box.style.display === "block") {
     box.style.display = "none";
-    box.innerHTML = "";
+    box.innerHTML = ""; // Clear content to reset
     element.innerHTML = element.innerHTML.replace("▾", "▸");
+    element.style.color = "#00bfff";
     return;
   }
   
-  box.style.display = "block";
-  box.innerHTML = "";
-  element.innerHTML = element.innerHTML.replace("▸", "▾");
-
-  skillData[id].forEach((skill) => {
-    const line = document.createElement("div");
-    line.className = "progress-line";
+  // Open Logic
+  // Optional: Close other open projects (Accordion style) - uncomment next 3 lines if desired
+  // document.querySelectorAll('.project-details').forEach(el => el.style.display = 'none');
+  // document.querySelectorAll('.project-item').forEach(el => el.innerHTML = el.innerHTML.replace("▾", "▸"));
+  
+  const data = projectData[id];
+  
+  if (data) {
+    box.style.display = "block";
+    element.innerHTML = element.innerHTML.replace("▸", "▾");
+    element.style.color = "#ffffff"; // Highlight active title
     
-    let displayName = skill.name;
-    if (isMobile && displayName.length > padLength) {
-       displayName = displayName.substring(0, padLength - 1) + ".";
-    }
-
-    const label = `--- ${displayName.padEnd(padLength)} : `;
-    line.textContent = label;
-    box.appendChild(line);
-
-    let current = 0;
-    const interval = setInterval(() => {
-      if (current <= skill.level) {
-        line.textContent =
-          label +
-          makeBar(current, barLength) +
-          ` = ${String(current).padStart(2, "0")}%`;
-        current++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 15);
-  });
+    // Inject Content
+    box.innerHTML = `
+      <img src="${data.image}" class="project-img" alt="Project Image">
+      <p class="project-desc">> ${data.description}</p>
+    `;
+  }
 }
 
 /* ===== MATRIX RAIN LOGIC ===== */

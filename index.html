@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hacker Portfolio | Nuvindya</title>
+<title>Mikaz.exe</title>
 
 <style>
 * {
@@ -31,7 +31,7 @@
 }
 
 #splash-text {
-  font-size: 1.5rem;
+  font-size: 1.0rem;
   font-weight: bold;
   text-shadow: 0 0 10px #00bfff;
   white-space: pre-wrap;
@@ -48,6 +48,7 @@
   display: none; /* Hidden initially */
   cursor: pointer;
   text-align: center;
+  text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
 }
 
 @keyframes blink-fast {
@@ -261,7 +262,10 @@ header {
   text-align: center;
   border-bottom: 1px solid #00bfff;
 }
-
+a {
+  color: inherit;
+  text-decoration: underline;
+}
 header h1 {
   font-size: 3.2rem;
   font-weight: bold;
@@ -353,10 +357,13 @@ header h1 {
   color: #00bfff;
   font-weight: bold;
   text-shadow: 0 0 8px #00bfff;
+  font-size: 1.3rem;
 }
 
 .skill-item:hover {
   color: #66ccff;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  background: rgba(0, 191, 255, 0.1);
 }
 
 .skill-details {
@@ -378,7 +385,7 @@ header h1 {
   white-space: pre;
 }
 
-/* ===== Projects Scroll Cards ===== */
+/* ===== Projects Scroll Cards (UPDATED WITH IMAGES) ===== */
 .projects-container {
   display: flex;
   gap: 25px;
@@ -397,31 +404,123 @@ header h1 {
 
 .project-card {
   min-width: 260px;
-  background: rgba(0, 0, 0, 0.8);
+  /* Use relative positioning for the overlay */
+  position: relative;
+  background-color: black;
   border: 1px solid #00bfff;
   padding: 20px;
   box-shadow: 0 0 15px rgba(0,191,255,0.6);
   transition: all 0.3s ease;
   cursor: pointer;
   height: 340px;
+  /* Ensure image covers area and stays within border */
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
+/* The Dark Overlay */
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Darker at top (0.9) to make text visible, lighter at bottom (0.4) */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+/* Text must be above the overlay (z-index 2) */
 .project-card h3 {
+  position: relative;
+  z-index: 2;
   color: #00bfff;
   margin-bottom: 10px;
   text-shadow: 0 0 10px #00bfff;
 }
 
 .project-card p {
+  position: relative;
+  z-index: 2;
   font-size: 0.9rem;
-  color: #66ccff;
+  color: #b3e6ff; /* Slightly brighter text for contrast on image */
   line-height: 1.4;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px black; /* Add shadow to ensure readability */
 }
 
 .project-card:hover {
   transform: translateY(-8px) scale(1.03);
   box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
 }
+
+/* ===== About Section Terminal ===== */
+.terminal-view {
+  border: 1px solid #00bfff;
+  background: rgba(0, 0, 0, 0.9); /* Dark background */
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.15);
+  font-family: "Courier New", monospace;
+  color: #66ccff; /* Terminal text color */
+  line-height: 1.6;
+  max-width: 1000px;
+  margin: 0 auto; /* Center it */
+  position: relative;
+}
+
+/* Optional: A top bar to look like a window */
+.terminal-header-bar {
+  border-bottom: 1px solid #00bfff;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  color: #00bfff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.term-line {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.term-prompt {
+  color: #00bfff; /* Bright blue for the prompt sign */
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+.project-card:hover::before {
+  /* Slightly lighten the overlay on hover */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+/* --- Placeholder Images for Cards --- */
+/* Using generic tech/coding backgrounds */
+.img-game {
+  background-image: url('images/project_card_images/game.png');
+}
+.img-web {
+  background-image: url('images/project_card_images/web.png');
+}
+.img-erp {
+  background-image: url('images/project_card_images/erp.png');
+}
+.img-ai {
+  background-image: url('images/project_card_images/ai.jpeg');
+}
+.img-nlp {
+  background-image: url('images/project_card_images/nlp.png');
+}
+.img-ml {
+  background-image: url('images/project_card_images/ml.png');
+}
+
 
 /* ===== Experience Tech Frame Styles ===== */
 .mech-container {
@@ -595,72 +694,13 @@ header h1 {
     padding: 40px 15px;
   }
 
-/* ===== UPDATED PROJECTS SECTION ===== */
-
-/* Update the card container to be flexible with height */
-.project-card {
-  min-width: 280px;  /* Slightly wider to fit images better */
-  width: 280px;      /* Fixed width for consistency in scroll */
-  background: rgba(0, 0, 0, 0.9); /* Darker background for contrast */
-  border: 1px solid #00bfff;
-  padding: 0;        /* Remove padding from container to let image sit flush */
-  box-shadow: 0 0 15px rgba(0,191,255,0.3);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  /* Remove fixed height to allow content to dictate size, 
-     or use min-height for uniformity */
-  min-height: 400px; 
-  overflow: hidden; /* Keeps image inside border radius if you add it */
-}
-
-/* New Image Styling */
-.project-img {
-  width: 100%;
-  height: 160px;       /* Fixed height for uniformity */
-  object-fit: cover;   /* Ensures image covers area without stretching */
-  border-bottom: 1px solid #00bfff; /* Separator line */
-  filter: grayscale(100%) contrast(1.2); /* Cyberpunk effect: B&W initially */
-  transition: all 0.3s ease;
-}
-
-/* Content wrapper to add padding back to text only */
-.project-content {
-  padding: 20px;
-  flex-grow: 1; /* Pushes content to fill space */
-  display: flex;
-  flex-direction: column;
-}
-
-.project-card h3 {
-  color: #00bfff;
-  margin-bottom: 10px;
-  text-shadow: 0 0 10px #00bfff;
-  font-size: 1.1rem;
-}
-
-
   .project-card {
-    min-width: 260px;
-    width: 260px;
-    min-height: 380px;
-  }
-  
-  .project-img {
-    height: 140px; /* Slightly smaller image on tablet */
+    min-width: 240px;
+    height: auto;
+    /* Aspect ratio for mobile cards if needed */
+    min-height: 300px;
   }
 
-/* Hover Effects */
-.project-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
-  z-index: 10; /* Ensure it pops over others */
-}
-
-.project-card:hover .project-img {
-  filter: grayscale(0%); /* Reveal color on hover */
-}
   .mech-card {
     padding: 30px 20px 25px 25px;
   }
@@ -717,18 +757,9 @@ header h1 {
     padding: 30px 10px;
   }
 
-
   .project-card {
-    min-width: 85vw; /* Make card almost full width on small phones */
-    width: 85vw;
-    min-height: auto; /* Allow height to adjust naturally */
-    margin-right: 10px; /* Spacing between cards */
+    min-width: 220px;
   }
-
-  .project-img {
-    height: 180px; /* Larger image for better visibility on mobile */
-  }
-
 
   .mech-badge-outer {
     transform: scale(0.85);
@@ -799,10 +830,56 @@ header h1 {
   </div>
 </div>
 
-<section id="about"><h2>> About</h2><p>Cybersecurity enthusiast.</p></section>
+<section id="about">
+  <h2>> About</h2>
+  
+  <div class="terminal-view">
+    <div class="terminal-header-bar">
+      <span>root@mikaz-system:~/bio</span>
+      <span>[rw-r--r--]</span>
+    </div>
+
+
+    
+    <span class="term-line"><span class="term-prompt">></span> Since childhood, I have heared and saw many stories about wizards & sorcerers who cast unbelievable magics.
+  When I grew up, I saw that those wizrds are really exist in real world</span>
+    
+    
+    <span class="term-line"><span class="term-prompt">  *</span> Wizards who lighten the whole world, like Thomas Alva Edison.</span>
+    <span class="term-line"><span class="term-prompt">  *</span> Sorcerers who destroyed a vast area in seconds, like Robert Oppenheimer.</span>
+    <span class="term-line"><span class="term-prompt">  *</span> And magicians like Wright brothers who let humans to fly over every kind of birds that had flown over them for centuries.</span>
+    
+  
+    <span class="term-line"><span class="term-prompt">></span> I also wanted to be a wizard. My focus was to be a Technology Wizard like Alan Turing, Ada Lovelace, and Charles Babbage.
+  Since after my A'levels I started to learn how to learn something new and learn it quickly. Then
+
+  I started to research, develop, and practice different spells. I went through books, articles, videos, & courses in my journey.
+
+  I met many wizards who mastered those sorcery practices. I grasped fundamentals, techniques, and best practices thoroughly into my mind.</span>
+
+    <span class="term-line"><span class="term-prompt">></span>So here I am as a newbie wizard who is willing to cast great things in the technological world. Explore further in my portfolio. And thank you very much for reading this till end. And this idea and content are not generated by AI.</span>
+ 
+  </div>
+</section>
 
 <section id="skills">
   <h2>> Skills</h2>
+  <div class="skill-item" onclick="toggleSkill(this, 'soft')">
+    ▸ Soft Skills
+  </div>
+  <div class="skill-details" id="soft"></div>
+  
+  <div class="skill-item" onclick="toggleSkill(this, 'ai')">
+    ▸ AI
+  </div>
+  <div class="skill-details" id="ai"></div>
+  
+  <div class="skill-item" onclick="toggleSkill(this, 'ml')">
+    ▸ ML
+  </div>
+  <div class="skill-details" id="ml"></div>
+  
+
   <div class="skill-item" onclick="toggleSkill(this,'web')">
     ▸ Web Development
   </div>
@@ -816,54 +893,31 @@ header h1 {
 <section id="projects">
   <h2>> Projects</h2>
   <div class="projects-container">
-    
-    <div class="project-card" onclick="window.open('www.google.com', '_blank')">      
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Game+Dev" alt="Game Dev" class="project-img">
-      <div class="project-content">
-        <h3>> Game Development</h3>
-        <p>Unreal Engine, Unity, gameplay mechanics, level design.</p>
-      </div>
+    <div class="project-card img-ml"onclick="window.open('ml_projects.html', '_blank')">
+      <h3>> Machine Learning</h3>
+      <p>Algorithms from scratch, Student performance predictor, Mushroom categorizer</p>
+    </div>
+        <div class="project-card img-nlp"onclick="window.open('nlp_projects.html', '_blank')">
+      <h3>> NLP Projects</h3>
+      <p>sentiment analysis</p>
+    </div>
+    <div class="project-card img-game"onclick="window.open('gd_projects.html', '_blank')">
+      <h3>> Game Development</h3>
+      <p>Unreal Engine, gameplay mechanics, level design</p>
+    </div>
+    <div class="project-card img-web">
+      <h3>> Web Development</h3>
+      <p>Under Construction</p>
+    </div>
+    <div class="project-card img-erp">
+      <h3>> ERP Systems</h3>
+      <p>Under Construction</p>
+    </div>
+    <div class="project-card img-ai">
+      <h3>> AI Projects</h3>
+      <p>Under Construction</p>
     </div>
 
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Web+Hacking" alt="Web Dev" class="project-img">
-      <div class="project-content">
-        <h3>> Web Development</h3>
-        <p>HTML, CSS, JavaScript, interactive hacker UIs.</p>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=ERP+Systems" alt="ERP" class="project-img">
-      <div class="project-content">
-        <h3>> ERP Systems</h3>
-        <p>SAP fundamentals, business process modeling.</p>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=AI+Vision" alt="AI" class="project-img">
-      <div class="project-content">
-        <h3>> AI Projects</h3>
-        <p>Computer vision, intelligent systems.</p>
-      </div>
-    </div>
-
-    <div class="project-card" >
-      <img src="https://placehold.co/600x400/000000/00bfff?text=NLP" alt="NLP" class="project-img">
-      <div class="project-content">
-        <h3>> NLP Projects</h3>
-        <p>Text processing, translation, sentiment analysis.</p>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <img src="https://placehold.co/600x400/000000/00bfff?text=Machine+Learning" alt="ML" class="project-img">
-      <div class="project-content">
-        <h3>> Machine Learning</h3>
-        <p>Prediction models, data analysis, automation.</p>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -882,9 +936,17 @@ header h1 {
       
       <div class="mech-card">
         <div class="mech-content">
-          <h3>SAP Projects</h3>
-          <span class="role">> Business Process Consultant</span>
-          <p>Managed enterprise resource planning integration, optimized business workflows using SAP solutions, and conducted system audits for efficiency improvements.</p>
+          <h3>Game Development Instructor</h3>
+          <span class="role">> Mogo Media Academy [2025]</span>
+          <li>Taught Unreal Engine Blueprint visual scripting to students with different knowledge levels. </li><br>
+
+            <li>Guided students through hands-on projects to build game mechanics and interactive systems. </li><br>
+
+            <li>Instructed on Animation Blueprints for character movement and animation blending. </li><br>
+
+            <li>Provided comprehensive explanations and real-world examples to help students understand and apply game development techniques effectively. </li><br>
+
+            <li>Guided students through hands-on, project-based learning, helping them build fully functional games and interactive prototypes</li>
         </div>
       </div>
 
@@ -900,32 +962,21 @@ header h1 {
       
       <div class="mech-card">
         <div class="mech-content">
-          <h3>Mogo Games</h3>
-          <span class="role">> Game Instructor</span>
-          <p>Taught game development fundamentals using Unity and Unreal Engine. Guided students through level design, C# scripting, and 3D asset integration.</p>
+          <h3>Indie Game Developer</h3>
+          <span class="role">> Self-Directed Projects | Unreal Engine | [2021 – 2024]</span>
+        <li> Designed and developed two original game prototypes using Unreal Engine.</li><br>
+        <li>Implemented core systems including player movement, combat interactions, and environmental effects to create immersive gameplay experiences.</li><br>
+        <li>Experimented with blueprint scripting and C++ integration, rapid prototyping with performance optimization.</li><br>
+        <li>Built custom assets and integrated third-party resources to enhance gameplay functionality.</li><br>
+        <li>Conducted playtesting and feedback sessions to refine mechanics, improve UX, and improve overall design.</li><br>
+        <li>Gained hands-on experience in project scoping, Game design document, and solo development workflows.</li>
+  
         </div>
       </div>
 
       <div class="mech-tab-bottom"></div>
     </div>
 
-    <div class="mech-wrapper">
-      <div class="mech-badge-outer">
-        <div class="mech-badge-inner">3</div>
-      </div>
-      
-      <div class="mech-notch-top"></div>
-      
-      <div class="mech-card">
-        <div class="mech-content">
-          <h3>Freelance</h3>
-          <span class="role">> Full Stack Developer</span>
-          <p>Developed custom web applications and interactive portfolios. Specialized in hacker-themed UIs and responsive front-end design using modern frameworks.</p>
-        </div>
-      </div>
-
-      <div class="mech-tab-bottom"></div>
-    </div>
 
   </div>
 </section>
@@ -934,47 +985,53 @@ header h1 {
   <h2>> Education</h2>
   
   <div class="edu-container">
-
     <div class="edu-card">
       <div class="gears-box">
         <div class="gear gear-lg">⚙</div>
         <div class="gear gear-sm">⚙</div>
       </div>
       
-      <div class="edu-title">> BSc in Information Technology</div>
-      <div class="edu-desc">University of Moratuwa | Specialization in Software Eng.</div>
-      
-      <div class="edu-bar">| ===================================== | 100%</div>
-    </div>
-
-    <div class="edu-card">
-      <div class="gears-box">
-        <div class="gear gear-lg">⚙</div>
-        <div class="gear gear-sm">⚙</div>
-      </div>
-      
-      <div class="edu-title">> SAP Professional Fundamentals</div>
-      <div class="edu-desc">Coursera Certification</div>
-      
-      <div class="edu-bar">| ===================================== | 100%</div>
-    </div>
-
-    <div class="edu-card">
-      <div class="gears-box">
-        <div class="gear gear-lg">⚙</div>
-        <div class="gear gear-sm">⚙</div>
-      </div>
-      
-      <div class="edu-title">> Game Development Training</div>
-      <div class="edu-desc">Ongoing advanced mechanics study</div>
+      <div class="edu-title">> Bachelor of Computing in Information Systems</div>
+      <div class="edu-desc">University of Sri Jayewardenepura<br>GPA : 3.62</div>
       
       <div class="edu-bar">| =============================         | _78%</div>
     </div>
+    <div class="edu-card">
+      <div class="gears-box">
+        <div class="gear gear-lg">⚙</div>
+        <div class="gear gear-sm">⚙</div>
+      </div>
+      
+      <div class="edu-title">> G.C.E Advance level - Maths Stream</div>
+      <div class="edu-desc">Kuliyapitiya Central College</div>
+      
+      <div class="edu-bar">| ===================================== | 100%</div>
+    </div>
+
+    <div class="edu-card">
+      <div class="gears-box">
+        <div class="gear gear-lg">⚙</div>
+        <div class="gear gear-sm">⚙</div>
+      </div>
+      
+      <div class="edu-title">> Grade 5 - Scholarship Exam</div>
+      <div class="edu-desc">Narammala Mayurapadha Junior School</div>
+      
+      <div class="edu-bar">| ===================================== | 100%</div>
+    </div>
+
+
 
   </div>
 </section>
 
-<section id="contact"><h2>> Contact</h2><p>nuvindya@protonmail.com</p></section>
+<section id="contact"><h2>> Contact</h2>
+<p>> connect --user mikaz</p>
+<li>✔ Email      : mikaznavodya@gmail.com</li>
+<li>✔ GitHub     : <a href="https://github.com/Mikaz-Navodya" target="_blank">https://github.com/Mikaz-Navodya</a></li>
+<li>✔ LinkedIn   : <a href="https://www.linkedin.com/in/mikaz-navodya-b4b395262/" target="_blank">https://www.linkedin.com/in/mikaz-navodya-b4b395262/</a></li>
+<li>✔ Location   : Sri Lanka (Remote Ready)</li>
+<li>✔ Status     : Available for Opportunities</li></section>
 
 <script>
 /* ===== MUSIC CONTROL LOGIC ===== */
@@ -1096,12 +1153,46 @@ window.onload = typeSplash;
 
 const skillData = {
   web: [
-    { name: "HTML", level: 78 },
-    { name: "CSS", level: 48 }
+    { name: "HTML", level: 80 },
+    { name: "CSS", level: 70 },
+    { name: "JS", level: 60 },
+    { name: "React", level: 0 },
+    { name: "NextJS", level: 0 },
+    { name: "ExpressJS", level: 0 },
+    { name: "NodeJS", level: 0 }
   ],
   game: [
-    { name: "Unreal Engine", level: 89 },
+    { name: "Unreal Engine", level: 80 },
     { name: "Unity Engine", level: 2 }
+  ],
+  ai: [
+    { name: "Python", level: 85 },
+    { name: "ML", level: 80 },
+    { name: "SQL", level: 85 },
+    { name: "Calculus", level: 60 },
+    { name: "Linear Algebra", level: 60 },
+    { name: "Probability and Statistics", level: 65 },
+    { name: "Numpy", level: 70 },
+    { name: "Pandas", level: 50 },
+    { name: "Matplotlib", level: 40 },
+    { name: "NLP", level: 40 },
+    { name: "Deep Learning", level: 20 },
+    { name: "MLOps", level: 10 }
+  ],
+  soft: [
+    { name: "Problem Solving", level: 80 },
+    { name: "Communication", level: 50 },
+    { name: "Story telling", level: 70 }
+  ],
+  ml: [
+    { name: "Supervised", level: 85 },
+    { name: "Unsupervised", level: 80 },
+    { name: "Recom. System", level: 70 },
+    { name: "Reinforcement L.", level: 80 },
+    { name: "SciKit", level: 75 },
+    { name: "Feature Eng.", level: 85 },
+    { name: "Model Evaluation", level: 85 },
+    { name: "Overfitting", level: 80 }
   ]
 };
 

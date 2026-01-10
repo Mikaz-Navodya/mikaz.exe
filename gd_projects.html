@@ -6,6 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
+/* ===== GLOBAL STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -45,7 +46,7 @@ canvas {
   box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
   transition: all 0.3s ease;
   user-select: none;
-  display: block; /* Visible immediately */
+  display: block; 
 }
 
 .music-btn:hover {
@@ -139,7 +140,7 @@ header h1 {
   51%, 100% { opacity: 0; }
 }
 
-/* ===== SKILLS SECTION ===== */
+/* ===== PROJECT LIST SECTION ===== */
 section {
   padding: 20px 10%;
 }
@@ -151,38 +152,47 @@ h2 {
   text-shadow: 0 0 10px #00bfff;
 }
 
-.skill-item {
+.project-item {
   cursor: pointer;
-  margin: 10px 0;
+  margin: 15px 0;
   color: #00bfff;
   font-weight: bold;
   text-shadow: 0 0 8px #00bfff;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  transition: padding-left 0.2s ease;
 }
 
-.skill-item:hover {
+.project-item:hover {
   color: #66ccff;
-  border: 1px solid rgba(0, 191, 255, 0.3);
-  background: rgba(0, 191, 255, 0.1);
+  padding-left: 10px;
 }
 
-.skill-details {
+/* ===== PROJECT DETAILS PANEL ===== */
+.project-details {
   display: none;
   margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  color: #66ccff;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  color: #e0f7ff;
   border: 1px solid #00bfff;
-  padding: 15px;
+  padding: 20px;
   background: rgba(0, 0, 0, 0.9);
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
+  animation: slideDown 0.3s ease-out;
 }
 
-.progress-line {
-  margin: 6px 0;
-  white-space: pre;
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Project Image Styling */
+
+.project-desc {
+  line-height: 1.6;
+  text-align: justify;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -190,7 +200,7 @@ h2 {
   header { padding: 25px 10px; }
   header h1 { font-size: 2.2rem; }
   section { padding: 50px 6%; }
-  .skill-details { max-width: 100%; }
+  .project-details { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
@@ -201,7 +211,6 @@ h2 {
   }
   .cv-fab-container { width: 56px; height: 56px; }
   .cv-btn { width: 44px; height: 44px; font-size: 0.85rem; }
-  .progress-line { font-size: 0.8rem; }
   canvas { filter: blur(1px); }
 }
 </style>
@@ -236,18 +245,24 @@ h2 {
   <h1 class="cursor">> Mikaz.exe</h1>
 </header>
 
-<section id="skills">
+<section id="projects">
   <h2>> Game Development Projects</h2>
   
-  <div class="skill-item" onclick="toggleSkill(this,'web')">
-    ▸ Web Development
+  <div class="project-item" onclick="toggleProject(this, 'proj1')">
+    ▸ Developed a English Learning game using unreal engine.
   </div>
-  <div class="skill-details" id="web"></div>
+  <div class="project-details" id="proj1"></div>
+
+  <div class="project-item" onclick="toggleProject(this, 'proj2')">
+    ▸ Developed a game prototype for single player third-person shooter game
+  </div>
+  <div class="project-details" id="proj2"></div>
   
-  <div class="skill-item" onclick="toggleSkill(this,'game')">
-    ▸ Game Development
+  <div class="project-item" onclick="toggleProject(this, 'proj3')">
+    ▸ 15 puzzle game using java
   </div>
-  <div class="skill-details" id="game"></div>
+  <div class="project-details" id="proj3"></div>
+
 </section>
 
 <script>
@@ -255,7 +270,6 @@ h2 {
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
-// Initial check (music starts paused by browser policy usually)
 updateMusicBtnText();
 
 function updateMusicBtnText() {
@@ -300,66 +314,122 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== SKILLS LOGIC ===== */
-const skillData = {
-  web: [
-    { name: "HTML", level: 78 },
-    { name: "CSS", level: 48 }
-  ],
-  game: [
-    { name: "Unreal Engine", level: 89 },
-    { name: "Unity Engine", level: 2 }
-  ]
-};
+/* ===== PROJECT DATA & LOGIC =====
 
-function makeBar(percent, totalChars) {
-  const filled = Math.round((percent / 100) * totalChars);
-  return "#".repeat(filled) + "-".repeat(totalChars - filled);
-}
+    "<a href='https://www.youtube.com/watch?v=6TAna6xSg3w' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Gameplay Link</a>\
+ "
 
-function toggleSkill(element, id) {
+
+
+*/
+
+// Define your projects here
+const projectData = {
+  proj1: {
+    
+    description: `Gameplay video<br>
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+
+    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6TAna6xSg3w?si=6AiUe0BzXiE6MNZK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  </div>
+      <br><br>> Game Concept:
+      <br>- The player controls a character equipped with different “word class” weapons — Noun Gun, Verb Gun, Pronoun Gun, etc.
+      <br>- Enemies (Green Soldiers) appear with words representing different parts of speech.
+      <br>- The player must shoot using the correct weapon that matches the word class.
+      <br>- Using the wrong weapon reduces health — so accuracy matters!
+      <br><br>> Bonus Challenge:
+      <br>Each group of enemies has a Captain (Pink Soldier).
+      When defeated, captains drop special words that can be collected into a missile storage. `
+  },
+  proj2: {
+    
+    description: `
+        Gameplay video 1
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Wp3cEKgTveo?si=QZHk41Q5fMGsPzUe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      </div>
+      <br><br>
+      Gameplay video 2
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hivs_O-Oc08?si=BiV_czNwNtWlsOYr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      </div>
+      <br><br>
+      Mini Zombies.
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/bmr3cuarhT8?si=C4CM-rtDMa4s6VZw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    </div>
+      <br><br>
+      Enemy NPC
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/QRPXJDFVmFw?si=Jph1XJ_kVrGCcEYo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> </div>
+      <br><br>
+      Weapon Wheel
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/edcptrtp8VU?si=FEVzzzPezALomyT3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> </div>
+            <br><br>
+                  
+       Rocket Launcher.
+      <br>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #00bfff;">
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Wh-S0SQ1dzQ?si=vm1NntxlnpB9JzwA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      </div>
+      <br><br>- Robots vs Solids, a third-person single-player shooter I developed as a personal passion project!
+
+<br><br>- In this game, players face off against “Rombies” (Robot + Zombie hybrids) using strategic combat mechanics and dynamic environments.
+
+<br><br>- I handled game design, programming, and level design, bringing it all together with Unreal’s Blueprints, AI systems, physics, and materials.
+
+<br><br>- One of the toughest yet most rewarding parts was developing the Rombie AI — making them behave unpredictably while keeping gameplay fun and challenging.
+      `
+  },
+    proj3: {
+    
+    description: `
+    <a href='https://github.com/Mikaz-Navodya/Students-Performance-Predictor' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
+ <br><br>> 15-Puzzle Game — Java Swing Project
+
+<br><br>The 15-Puzzle Game is an interactive desktop application developed using Java and Swing, designed to recreate the classic sliding puzzle experience with modern UI elements and additional gameplay features. This project demonstrates strong skills in object-oriented programming, event-driven design, and graphical user interface development.
+
+<br><br>> Project Overview<br>
+
+The game presents players with a 4×4 grid containing 15 numbered tiles and one empty slot. The goal is to rearrange the tiles into correct numerical order by sliding them into the empty space. The project adds depth and engagement through timers, difficulty modes, animations, and sound effects.
+
+
+  `
+  },
+  }
+
+
+function toggleProject(element, id) {
   const box = document.getElementById(id);
-  const isMobile = window.innerWidth <= 480;
-  const barLength = isMobile ? 12 : 25;
-  const padLength = isMobile ? 10 : 14;
-
+  
+  // Close Logic
   if (box.style.display === "block") {
     box.style.display = "none";
-    box.innerHTML = "";
+    box.innerHTML = ""; // Clear content to reset
     element.innerHTML = element.innerHTML.replace("▾", "▸");
+    element.style.color = "#00bfff";
     return;
   }
   
-  box.style.display = "block";
-  box.innerHTML = "";
-  element.innerHTML = element.innerHTML.replace("▸", "▾");
-
-  skillData[id].forEach((skill) => {
-    const line = document.createElement("div");
-    line.className = "progress-line";
+  // Open Logic
+  // Optional: Close other open projects (Accordion style) - uncomment next 3 lines if desired
+  // document.querySelectorAll('.project-details').forEach(el => el.style.display = 'none');
+  // document.querySelectorAll('.project-item').forEach(el => el.innerHTML = el.innerHTML.replace("▾", "▸"));
+  
+  const data = projectData[id];
+  
+  if (data) {
+    box.style.display = "block";
+    element.innerHTML = element.innerHTML.replace("▸", "▾");
+    element.style.color = "#ffffff"; // Highlight active title
     
-    let displayName = skill.name;
-    if (isMobile && displayName.length > padLength) {
-       displayName = displayName.substring(0, padLength - 1) + ".";
-    }
-
-    const label = `--- ${displayName.padEnd(padLength)} : `;
-    line.textContent = label;
-    box.appendChild(line);
-
-    let current = 0;
-    const interval = setInterval(() => {
-      if (current <= skill.level) {
-        line.textContent =
-          label +
-          makeBar(current, barLength) +
-          ` = ${String(current).padStart(2, "0")}%`;
-        current++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 15);
-  });
+    // Inject Content
+    box.innerHTML = `
+      
+      <p class="project-desc">> ${data.description}</p>
+    `;
+  }
 }
 
 /* ===== MATRIX RAIN LOGIC ===== */
