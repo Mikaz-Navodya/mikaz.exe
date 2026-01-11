@@ -6,6 +6,9 @@
 <title>Mikaz.exe</title>
 <link rel="icon" type="image/png" href="images/favicon.png">
 <style>
+/* =========================================
+   CORE & RESET
+   ========================================= */
 * {
   margin: 0;
   padding: 0;
@@ -13,20 +16,20 @@
   font-family: "Courier New", monospace;
 }
 
-/* ===== CORE STYLES ===== */
 body {
   background: black;
   color: #00bfff;
   overflow-x: hidden;
 }
 
-/* Helper to prevent scrolling during splash */
 body.no-scroll {
   overflow: hidden;
   height: 100vh;
 }
 
-/* ===== SPLASH SCREEN STYLES ===== */
+/* =========================================
+   SPLASH SCREEN (UPDATED)
+   ========================================= */
 #splash-screen {
   position: fixed;
   top: 0;
@@ -38,33 +41,59 @@ body.no-scroll {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Centered layout */
   color: #00bfff;
   padding: 20px;
 }
 
-#splash-text {
+#splash-console {
   font-size: 1.0rem;
   font-weight: bold;
   text-shadow: 0 0 10px #00bfff;
-  white-space: pre-wrap;
   line-height: 1.5;
   margin-bottom: 30px;
-  max-width: 800px;
   width: 100%;
+  max-width: 600px; /* Constrain width for better reading */
+}
+
+.splash-line {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* The loading bar line style */
+#loading-line {
+  display: inline-block;
+}
+
+/* The blinking cursor in splash */
+.splash-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 15px;
+  background-color: #00bfff;
+  margin-left: 5px;
+  animation: blink-block 0.8s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink-block {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 #press-key-msg {
   font-size: 1.2rem;
   color: #fff;
-  animation: blink-fast 1s infinite;
+  animation: blink-text 1s infinite;
   display: none; /* Hidden initially */
   cursor: pointer;
   text-align: center;
-  text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
+  text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+  margin-top: 20px;
 }
 
-@keyframes blink-fast {
+@keyframes blink-text {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
@@ -75,12 +104,14 @@ body.no-scroll {
   pointer-events: none;
 }
 
-/* ===== MUSIC CONTROL BUTTON ===== */
+/* =========================================
+   UI CONTROLS (Music, CV)
+   ========================================= */
 .music-btn {
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 2000; /* Above matrix */
+  z-index: 2000;
   background: rgba(0, 0, 0, 0.85);
   border: 1px solid #00bfff;
   color: #00bfff;
@@ -89,23 +120,20 @@ body.no-scroll {
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
   transition: all 0.3s ease;
-  display: none; /* Hidden until splash ends */
+  display: none;
   user-select: none;
 }
-
 .music-btn:hover {
   background: #00bfff;
   color: black;
   box-shadow: 0 0 20px #00bfff;
 }
-
 .music-btn.muted {
   border-color: #555;
   color: #777;
   box-shadow: none;
 }
 
-/* ===== DOWNLOAD CV BUTTON STYLES ===== */
 .cv-fab-container {
   position: fixed;
   bottom: 30px;
@@ -119,11 +147,7 @@ body.no-scroll {
   justify-content: center;
   transition: transform 0.2s ease;
 }
-
-.cv-fab-container:hover {
-  transform: scale(1.1);
-}
-
+.cv-fab-container:hover { transform: scale(1.1); }
 .cv-btn {
   width: 56px;
   height: 56px;
@@ -140,7 +164,6 @@ body.no-scroll {
   position: absolute;
   z-index: 2002;
 }
-
 .progress-ring {
   position: absolute;
   inset: 0;
@@ -149,111 +172,18 @@ body.no-scroll {
   transform: rotate(-90deg);
   pointer-events: none;
 }
-
 .progress-ring__circle {
   stroke: #00bfff;
   stroke-width: 4;
-  stroke-dasharray: 283;        /* 2πr → 2 * 3.14 * 45 */
+  stroke-dasharray: 283;
   stroke-dashoffset: 283;
   transition: stroke-dashoffset 1.5s ease-in-out;
   transform-origin: 50% 50%;
 }
 
-
-/* ===== Education Tech Card ===== */
-.edu-container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.edu-card {
-  position: relative;
-  border: 1px solid #00bfff;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 30px 20px 20px 30px;
-  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.edu-card:hover {
-  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
-  transform: translateX(5px);
-}
-
-/* --- Rotating Gears --- */
-.gears-box {
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  width: 50px;
-  height: 50px;
-  z-index: 10;
-}
-
-.gear {
-  position: absolute;
-  color: #00bfff;
-  line-height: 1;
-  text-shadow: 0 0 5px #00bfff;
-}
-
-.gear-lg {
-  font-size: 28px;
-  top: 0;
-  left: 0;
-  animation: spin-right 4s linear infinite;
-}
-
-.gear-sm {
-  font-size: 18px;
-  top: 22px;
-  left: 22px; 
-  color: #ffffff; 
-  animation: spin-left 2s linear infinite;
-}
-
-@keyframes spin-right { 100% { transform: rotate(360deg); } }
-@keyframes spin-left { 100% { transform: rotate(-360deg); } }
-
-/* --- Content Styles --- */
-.edu-title {
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-left: 20px; 
-  margin-bottom: 5px;
-}
-
-.edu-desc {
-  color: #66ccff;
-  font-size: 0.9rem;
-  margin-left: 20px;
-  margin-bottom: 20px;
-}
-
-/* --- Terminal Progress Bar --- */
-.edu-bar {
-  font-family: 'Courier New', monospace;
-  font-size: 0.85rem;
-  color: #00bfff;
-  white-space: pre; 
-  overflow-x: hidden; 
-  opacity: 0.9;
-}
-
-h2 {
-  border-left: 4px solid #00bfff;
-  padding-left: 10px;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #00bfff;
-}
-
-section {
-  padding: 70px 10%;
-}
-
-/* ===== Matrix Background ===== */
+/* =========================================
+   MAIN LAYOUT & SECTIONS
+   ========================================= */
 canvas {
   position: fixed;
   top: 0;
@@ -263,64 +193,39 @@ canvas {
   opacity: 0.85;
 }
 
-/* ===== Header ===== */
 header {
   padding: 40px;
   text-align: center;
   border-bottom: 1px solid #00bfff;
-}
-a {
-  color: inherit;
-  text-decoration: underline;
 }
 header h1 {
   font-size: 3.2rem;
   font-weight: bold;
   text-shadow: 0 0 15px #00bfff, 0 0 35px #007bff;
 }
-
 .cursor::after {
   content: "_";
   margin-left: 5px;
-  animation: blink 1s infinite;
+  animation: blink-text 1s infinite;
 }
+a { color: inherit; text-decoration: underline; }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-/* ===== Profile Section ===== */
-.profile {
-  text-align: center;
-  padding: 60px 10%;
-}
-
+/* Profile & Command Box */
+.profile { text-align: center; padding: 60px 10%; }
 .photo-wrapper {
-  width: 240px;
-  height: 260px;
-  margin: auto;
-  padding: 4px;
+  width: 240px; height: 260px; margin: auto; padding: 4px;
   background: linear-gradient(120deg, #00bfff, #0044ff, #00bfff);
   background-size: 300% 300%;
   animation: cyberFlow 3s linear infinite;
   box-shadow: 0 0 25px #00bfff;
 }
-
 @keyframes cyberFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+.photo-wrapper img { width: 100%; height: 100%; object-fit: cover; background: black; }
 
-.photo-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: black;
-}
-
-/* ===== Command Terminal ===== */
 .command-box {
   margin-top: 40px;
   border: 1px solid #00bfff;
@@ -332,460 +237,187 @@ header h1 {
   text-align: left;
   font-weight: 700;
 }
-
-.output {
-  font-size: 0.95rem;
-  color: #66ccff;
-  line-height: 1.6;
-  min-height: 150px;
-}
-
-.command-options {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: none;
-}
-
+.output { font-size: 0.95rem; color: #66ccff; line-height: 1.6; min-height: 150px; }
+.command-options { margin-top: 20px; margin-bottom: 20px; display: none; }
 .command-box input {
-  width: 100%;
-  background: black;
-  border: none;
-  outline: none;
-  color: #00bfff;
-  font-size: 1rem;
-  font-weight: 700;
-  display: none;
+  width: 100%; background: black; border: none; outline: none;
+  color: #00bfff; font-size: 1rem; font-weight: 700; display: none;
 }
 
-/* ===== Skills Terminal ===== */
-.skill-item {
-  cursor: pointer;
-  margin: 10px 0;
-  color: #00bfff;
-  font-weight: bold;
-  text-shadow: 0 0 8px #00bfff;
-  font-size: 1.3rem;
-}
-
-.skill-item:hover {
-  color: #66ccff;
-  border: 1px solid rgba(0, 191, 255, 0.3);
-  background: rgba(0, 191, 255, 0.1);
-}
-
-.skill-details {
-  display: none;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  color: #66ccff;
-  border: 1px solid #00bfff;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.9);
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
-  width: 100%;
-  max-width: 500px;
-}
-
-.progress-line {
-  margin: 6px 0;
-  white-space: pre;
-}
-
-/* ===== Projects Scroll Cards ===== */
-.projects-container {
-  display: flex;
-  gap: 25px;
-  overflow-x: auto;
-  padding: 75px 55px 30px;
-  scroll-behavior: smooth;
-  height :480px;
-  scrollbar-width: none;        
-  -ms-overflow-style: none; 
-}
-
-.projects-container::-webkit-scrollbar {
-  display:none;
-  height: 26px;
-}
-
-.project-card {
-  min-width: 260px;
-  /* Use relative positioning for the overlay */
-  position: relative;
-  background-color: black;
-  border: 1px solid #00bfff;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0,191,255,0.6);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  height: 340px;
-  /* Ensure image covers area and stays within border */
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-}
-
-/* The Dark Overlay */
-.project-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Darker at top (0.9) to make text visible, lighter at bottom (0.4) */
-  background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%);
-  z-index: 1;
-  transition: background 0.3s ease;
-}
-
-/* Text must be above the overlay (z-index 2) */
-.project-card h3 {
-  position: relative;
-  z-index: 2;
-  color: #00bfff;
-  margin-bottom: 10px;
+/* Sections General */
+section { padding: 70px 10%; }
+h2 {
+  border-left: 4px solid #00bfff; padding-left: 10px; margin-bottom: 20px;
   text-shadow: 0 0 10px #00bfff;
 }
 
-.project-card p {
-  position: relative;
-  z-index: 2;
-  font-size: 0.9rem;
-  color: #b3e6ff; /* Slightly brighter text for contrast on image */
-  line-height: 1.4;
-  font-weight: 600;
-  text-shadow: 1px 1px 2px black; /* Add shadow to ensure readability */
-}
-
-.project-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
-}
-
-.project-card:hover::before {
-  /* Slightly lighten the overlay on hover */
-  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
-}
-
-/* --- Placeholder Images for Cards --- */
-.img-game {
-  background-image: url('images/project_card_images/game.png');
-}
-.img-web {
-  background-image: url('images/project_card_images/web.png');
-}
-.img-erp {
-  background-image: url('images/project_card_images/erp.png');
-}
-.img-ai {
-  background-image: url('images/project_card_images/ai.jpeg');
-}
-.img-nlp {
-  background-image: url('images/project_card_images/nlp.png');
-}
-.img-ml {
-  background-image: url('images/project_card_images/ml.png');
-}
-
-/* ===== About Section Terminal ===== */
+/* Terminal View (About) */
 .terminal-view {
   border: 1px solid #00bfff;
-  background: rgba(0, 0, 0, 0.9); /* Dark background */
+  background: rgba(0, 0, 0, 0.9);
   padding: 30px;
   box-shadow: 0 0 20px rgba(0, 191, 255, 0.15);
   font-family: "Courier New", monospace;
-  color: #66ccff; /* Terminal text color */
+  color: #66ccff;
   line-height: 1.6;
   max-width: 1000px;
-  margin: 0 auto; /* Center it */
-  position: relative;
-}
-
-.terminal-header-bar {
-  border-bottom: 1px solid #00bfff;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  color: #00bfff;
-  font-weight: bold;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: space-between;
-}
-
-.term-line {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.term-prompt {
-  color: #00bfff; /* Bright blue for the prompt sign */
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-/* ===== Experience Tech Frame Styles ===== */
-.mech-container {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  padding-top: 30px;
-}
-
-.mech-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
   margin: 0 auto;
 }
+.terminal-header-bar {
+  border-bottom: 1px solid #00bfff; padding-bottom: 10px; margin-bottom: 15px;
+  color: #00bfff; font-weight: bold; font-size: 0.9rem;
+  display: flex; justify-content: space-between;
+}
+.term-line { display: block; margin-bottom: 8px; }
+.term-prompt { color: #00bfff; font-weight: bold; margin-right: 10px; }
 
+/* Skills */
+.skill-item {
+  cursor: pointer; margin: 10px 0; color: #00bfff; font-weight: bold;
+  text-shadow: 0 0 8px #00bfff; font-size: 1.3rem;
+}
+.skill-item:hover {
+  color: #66ccff; border: 1px solid rgba(0, 191, 255, 0.3);
+  background: rgba(0, 191, 255, 0.1);
+}
+.skill-details {
+  display: none; margin-top: 10px; margin-bottom: 20px; font-size: 0.9rem;
+  color: #66ccff; border: 1px solid #00bfff; padding: 15px;
+  background: rgba(0, 0, 0, 0.9); box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+  width: 100%; max-width: 500px;
+}
+.progress-line { margin: 6px 0; white-space: pre; }
+
+/* Projects */
+.projects-container {
+  display: flex; gap: 25px; overflow-x: auto; padding: 75px 55px 30px;
+  scroll-behavior: smooth; height :480px; scrollbar-width: none; -ms-overflow-style: none;
+}
+.projects-container::-webkit-scrollbar { display:none; height: 26px; }
+
+.project-card {
+  min-width: 260px; position: relative; background-color: black;
+  border: 1px solid #00bfff; padding: 20px;
+  box-shadow: 0 0 15px rgba(0,191,255,0.6); transition: all 0.3s ease;
+  cursor: pointer; height: 340px; background-size: cover; background-position: center;
+  overflow: hidden;
+}
+.project-card::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 1; transition: background 0.3s ease;
+}
+.project-card h3 { position: relative; z-index: 2; color: #00bfff; margin-bottom: 10px; text-shadow: 0 0 10px #00bfff; }
+.project-card p {
+  position: relative; z-index: 2; font-size: 0.9rem; color: #b3e6ff;
+  line-height: 1.4; font-weight: 600; text-shadow: 1px 1px 2px black;
+}
+.project-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff; }
+.project-card:hover::before { background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%); }
+
+/* Project Card Images */
+.img-game { background-image: url('images/project_card_images/game.png'); }
+.img-web { background-image: url('images/project_card_images/web.png'); }
+.img-erp { background-image: url('images/project_card_images/erp.png'); }
+.img-ai { background-image: url('images/project_card_images/ai.jpeg'); }
+.img-nlp { background-image: url('images/project_card_images/nlp.png'); }
+.img-ml { background-image: url('images/project_card_images/ml.png'); }
+
+/* Experience (Mech Cards) */
+.mech-container { display: flex; flex-direction: column; gap: 60px; padding-top: 30px; }
+.mech-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; }
 .mech-card {
-  position: relative;
-  background: rgba(0, 0, 0, 0.85);
-  border: 2px solid #00bfff; 
+  position: relative; background: rgba(0, 0, 0, 0.85); border: 2px solid #00bfff;
   padding: 40px 30px 30px 40px;
-  clip-path: polygon(
-    20px 0, 100% 0, 
-    100% calc(100% - 20px), calc(100% - 20px) 100%, 
-    0 100%, 0 20px
-  );
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
-  transition: transform 0.3s ease;
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.2); transition: transform 0.3s ease;
 }
-
-.mech-wrapper:hover .mech-card {
-  transform: scale(1.01);
-  box-shadow: 0 0 25px rgba(0, 191, 255, 0.4);
-}
-
+.mech-wrapper:hover .mech-card { transform: scale(1.01); box-shadow: 0 0 25px rgba(0, 191, 255, 0.4); }
 .mech-notch-top {
-  position: absolute;
-  top: -2px; 
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 12px;
-  background: black; 
-  border-bottom: 2px solid #00bfff;
-  border-left: 2px solid #00bfff;
-  border-right: 2px solid #00bfff;
-  clip-path: polygon(0 0, 15px 100%, 105px 100%, 120px 0);
-  z-index: 10;
+  position: absolute; top: -2px; left: 50%; transform: translateX(-50%); width: 120px; height: 12px;
+  background: black; border-bottom: 2px solid #00bfff; border-left: 2px solid #00bfff; border-right: 2px solid #00bfff;
+  clip-path: polygon(0 0, 15px 100%, 105px 100%, 120px 0); z-index: 10;
 }
-
 .mech-tab-bottom {
-  position: absolute;
-  bottom: -10px; 
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140px;
-  height: 12px;
-  background: #00bfff; 
-  clip-path: polygon(15px 0, 125px 0, 140px 100%, 0 100%);
-  z-index: 10;
+  position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 140px; height: 12px;
+  background: #00bfff; clip-path: polygon(15px 0, 125px 0, 140px 100%, 0 100%); z-index: 10;
 }
-
 .mech-badge-outer {
-  position: absolute;
-  top: -27px;   
-  left: -17px;  
-  width: 54px;   
-  height: 60px;  
-  background: #00bfff; 
+  position: absolute; top: -27px; left: -17px; width: 54px; height: 60px; background: #00bfff;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  z-index: 15;
-  box-shadow: 0 0 15px #00bfff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 15; box-shadow: 0 0 15px #00bfff; display: flex; align-items: center; justify-content: center;
 }
-
 .mech-badge-inner {
-  width: 50px;
-  height: 56px;
-  background: black;
-  color: #00bfff;
+  width: 50px; height: 56px; background: black; color: #00bfff;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.4rem;
 }
+.mech-content h3 { color: #ffffff; font-size: 1.2rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+.mech-content .role { color: #00bfff; font-weight: bold; margin-bottom: 15px; display: block; }
+.mech-content p { color: #aaddff; font-size: 0.9rem; line-height: 1.6; }
 
-.mech-content h3 {
-  color: #ffffff;
-  font-size: 1.2rem;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+/* Education (Edu Cards) */
+.edu-container { display: flex; flex-direction: column; gap: 30px; }
+.edu-card {
+  position: relative; border: 1px solid #00bfff; background: rgba(0, 0, 0, 0.85);
+  padding: 30px 20px 20px 30px; box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+  transition: all 0.3s ease;
 }
+.edu-card:hover { box-shadow: 0 0 20px rgba(0, 191, 255, 0.5); transform: translateX(5px); }
+.gears-box { position: absolute; top: -15px; left: -15px; width: 50px; height: 50px; z-index: 10; }
+.gear { position: absolute; color: #00bfff; line-height: 1; text-shadow: 0 0 5px #00bfff; }
+.gear-lg { font-size: 28px; top: 0; left: 0; animation: spin-right 4s linear infinite; }
+.gear-sm { font-size: 18px; top: 22px; left: 22px; color: #ffffff; animation: spin-left 2s linear infinite; }
+@keyframes spin-right { 100% { transform: rotate(360deg); } }
+@keyframes spin-left { 100% { transform: rotate(-360deg); } }
+.edu-title { color: #fff; font-size: 1.1rem; font-weight: bold; margin-left: 20px; margin-bottom: 5px; }
+.edu-desc { color: #66ccff; font-size: 0.9rem; margin-left: 20px; margin-bottom: 20px; }
+.edu-bar { font-family: 'Courier New', monospace; font-size: 0.85rem; color: #00bfff; white-space: pre; overflow-x: hidden; opacity: 0.9; }
 
-.mech-content .role {
-  color: #00bfff;
-  font-weight: bold;
-  margin-bottom: 15px;
-  display: block;
-}
-
-.mech-content p {
-  color: #aaddff;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-/* ================= MOBILE RESPONSIVE FIXES ================= */
+/* Responsiveness */
 @media (max-width: 1024px) {
-  section {
-    padding: 60px 6%;
-  }
-
-  header h1 {
-    font-size: 2.6rem;
-  }
-
-  .projects-container {
-    padding: 60px 30px 30px;
-  }
+  section { padding: 60px 6%; }
+  header h1 { font-size: 2.6rem; }
+  .projects-container { padding: 60px 30px 30px; }
 }
-
-/* ================= TABLET & MOBILE ================= */
 @media (max-width: 768px) {
-
-  header {
-    padding: 25px 10px;
-  }
-
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  .profile {
-    padding: 40px 6%;
-  }
-
-  .photo-wrapper {
-    width: 190px;
-    height: 210px;
-  }
-
-  .command-box {
-    width: 100%;
-    max-width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .output {
-    min-height: 120px;
-  }
-
-  section {
-    padding: 50px 6%;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-  }
-
-  .skill-details {
-    max-width: 100%;
-  }
-
-  .projects-container {
-    gap: 20px;
-    height: auto;
-    padding: 40px 15px;
-  }
-
-  .project-card {
-    min-width: 240px;
-    height: auto;
-    /* Aspect ratio for mobile cards if needed */
-    min-height: 300px;
-  }
-
-  .mech-card {
-    padding: 30px 20px 25px 25px;
-  }
-
-  .edu-card {
-    padding: 25px 15px 20px 25px;
-  }
-
-  .edu-title,
-  .edu-desc {
-    margin-left: 10px;
-  }
+  header { padding: 25px 10px; }
+  header h1 { font-size: 2.2rem; }
+  .profile { padding: 40px 6%; }
+  .photo-wrapper { width: 190px; height: 210px; }
+  .command-box { width: 100%; max-width: 100%; font-size: 0.9rem; }
+  .output { min-height: 120px; }
+  section { padding: 50px 6%; }
+  h2 { font-size: 1.2rem; }
+  .skill-details { max-width: 100%; }
+  .projects-container { gap: 20px; height: auto; padding: 40px 15px; }
+  .project-card { min-width: 240px; height: auto; min-height: 300px; }
+  .mech-card { padding: 30px 20px 25px 25px; }
+  .edu-card { padding: 25px 15px 20px 25px; }
+  .edu-title, .edu-desc { margin-left: 10px; }
 }
-
-/* ================= SMALL MOBILE PHONES ================= */
 @media (max-width: 480px) {
-
-  header h1 {
-    font-size: 1.9rem;
-  }
-
-  .music-btn {
-    top: 10px;
-    left: 10px;
-    padding: 8px 12px;
-    font-size: 1.2rem; /* Adjusted for emoji */
-  }
-
-  .cv-fab-container {
-    width: 56px;
-    height: 56px;
-  }
-
-  .cv-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 0.85rem;
-  }
-  
-  .photo-wrapper {
-    width: 160px;
-    height: 180px;
-  }
-
-  .command-box {
-    padding: 14px;
-  }
-
-  .output {
-    font-size: 0.85rem;
-  }
-
-  .projects-container {
-    padding: 30px 10px;
-  }
-
-  .project-card {
-    min-width: 220px;
-  }
-
-  .mech-badge-outer {
-    transform: scale(0.85);
-  }
-
-  .edu-bar {
-    font-size: 0.75rem;
-  }
-  
-  /* Make skill lines smaller on mobile */
-  .progress-line {
-      font-size: 0.8rem;
-  }
-
-  canvas {
-    filter: blur(1px);
-  }
+  header h1 { font-size: 1.9rem; }
+  .music-btn { top: 10px; left: 10px; padding: 8px 12px; font-size: 1.2rem; }
+  .cv-fab-container { width: 56px; height: 56px; }
+  .cv-btn { width: 44px; height: 44px; font-size: 0.85rem; }
+  .photo-wrapper { width: 160px; height: 180px; }
+  .command-box { padding: 14px; }
+  .output { font-size: 0.85rem; }
+  .projects-container { padding: 30px 10px; }
+  .project-card { min-width: 220px; }
+  .mech-badge-outer { transform: scale(0.85); }
+  .edu-bar { font-size: 0.75rem; }
+  .progress-line { font-size: 0.8rem; }
+  canvas { filter: blur(1px); }
+  #splash-console { font-size: 0.85rem; }
 }
 </style>
 </head>
 
-<body class="no-scroll"> <audio id="bg-music" loop>
+<body class="no-scroll">
+
+<audio id="bg-music" loop>
   <source src="background-music.mp3" type="audio/mp3">
 </audio>
 
@@ -794,21 +426,15 @@ header h1 {
 </div>
 
 <div id="splash-screen">
-  <div id="splash-text"></div>
+  <div id="splash-console">
+    </div>
   <div id="press-key-msg">[ PRESS ANY KEY TO CONTINUE ]</div>
 </div>
 
 <div class="cv-fab-container" onclick="downloadCV()">
   <svg class="progress-ring" viewBox="0 0 100 100">
-  <circle
-    class="progress-ring__circle"
-    cx="50"
-    cy="50"
-    r="45"
-    fill="transparent"
-  />
-</svg>
-
+  <circle class="progress-ring__circle" cx="50" cy="50" r="45" fill="transparent"/>
+  </svg>
   <div class="cv-btn">CV</div>
 </div>
 
@@ -833,13 +459,11 @@ header h1 {
 
 <section id="about">
   <h2>> About</h2>
-  
   <div class="terminal-view">
     <div class="terminal-header-bar">
       <span>root@mikaz-system:~/bio</span>
       <span>[rw-r--r--]</span>
     </div>
-
     <span class="term-line"><span class="term-prompt">> Curiosity led me to machine learning. Patterns kept me there.
     <br><br>> I enjoy exploring data, understanding how models learn, and turning raw information into meaningful predictions. For me, machine learning isn’t magic — it’s logic, experimentation, and constant refinement.
     <br><br>> I’m continuously learning, building, and questioning how intelligent systems behave in the real world — one model at a time.</span>
@@ -848,29 +472,19 @@ header h1 {
 
 <section id="skills">
   <h2>> Skills</h2>
-  <div class="skill-item" onclick="toggleSkill(this, 'soft')">
-    ▸ Soft Skills
-  </div>
+  <div class="skill-item" onclick="toggleSkill(this, 'soft')">▸ Soft Skills</div>
   <div class="skill-details" id="soft"></div>
   
-  <div class="skill-item" onclick="toggleSkill(this, 'ai')">
-    ▸ AI
-  </div>
+  <div class="skill-item" onclick="toggleSkill(this, 'ai')">▸ AI</div>
   <div class="skill-details" id="ai"></div>
   
-  <div class="skill-item" onclick="toggleSkill(this, 'ml')">
-    ▸ ML
-  </div>
+  <div class="skill-item" onclick="toggleSkill(this, 'ml')">▸ ML</div>
   <div class="skill-details" id="ml"></div>
   
-
-  <div class="skill-item" onclick="toggleSkill(this,'web')">
-    ▸ Web Development
-  </div>
+  <div class="skill-item" onclick="toggleSkill(this,'web')">▸ Web Development</div>
   <div class="skill-details" id="web"></div>
-  <div class="skill-item" onclick="toggleSkill(this,'game')">
-    ▸ Game Development
-  </div>
+
+  <div class="skill-item" onclick="toggleSkill(this,'game')">▸ Game Development</div>
   <div class="skill-details" id="game"></div>
 </section>
 
@@ -881,7 +495,7 @@ header h1 {
       <h3>> Machine Learning</h3>
       <p>Algorithms from scratch, Student performance predictor, Mushroom categorizer</p>
     </div>
-        <div class="project-card img-nlp"onclick="window.open('nlp_projects.html', '_blank')">
+    <div class="project-card img-nlp"onclick="window.open('nlp_projects.html', '_blank')">
       <h3>> NLP Projects</h3>
       <p>sentiment analysis</p>
     </div>
@@ -906,42 +520,27 @@ header h1 {
 
 <section id="experience">
   <h2>> Experience</h2>
-  
   <div class="mech-container">
-    
     <div class="mech-wrapper">
-      <div class="mech-badge-outer">
-        <div class="mech-badge-inner">1</div>
-      </div>
-      
+      <div class="mech-badge-outer"><div class="mech-badge-inner">1</div></div>
       <div class="mech-notch-top"></div>
-      
       <div class="mech-card">
         <div class="mech-content">
           <h3>Game Development Instructor</h3>
           <span class="role">> Mogo Media Academy [2025]</span>
           <li>Taught Unreal Engine Blueprint visual scripting to students with different knowledge levels. </li><br>
-
-            <li>Guided students through hands-on projects to build game mechanics and interactive systems. </li><br>
-
-            <li>Instructed on Animation Blueprints for character movement and animation blending. </li><br>
-
-            <li>Provided comprehensive explanations and real-world examples to help students understand and apply game development techniques effectively. </li><br>
-
-            <li>Guided students through hands-on, project-based learning, helping them build fully functional games and interactive prototypes</li>
+          <li>Guided students through hands-on projects to build game mechanics and interactive systems. </li><br>
+          <li>Instructed on Animation Blueprints for character movement and animation blending. </li><br>
+          <li>Provided comprehensive explanations and real-world examples to help students understand and apply game development techniques effectively. </li><br>
+          <li>Guided students through hands-on, project-based learning, helping them build fully functional games and interactive prototypes</li>
         </div>
       </div>
-
       <div class="mech-tab-bottom"></div>
     </div>
 
     <div class="mech-wrapper">
-      <div class="mech-badge-outer">
-        <div class="mech-badge-inner">2</div>
-      </div>
-      
+      <div class="mech-badge-outer"><div class="mech-badge-inner">2</div></div>
       <div class="mech-notch-top"></div>
-      
       <div class="mech-card">
         <div class="mech-content">
           <h3>Indie Game Developer</h3>
@@ -952,30 +551,23 @@ header h1 {
         <li>Built custom assets and integrated third-party resources to enhance gameplay functionality.</li><br>
         <li>Conducted playtesting and feedback sessions to refine mechanics, improve UX, and improve overall design.</li><br>
         <li>Gained hands-on experience in project scoping, Game design document, and solo development workflows.</li>
-  
         </div>
       </div>
-
       <div class="mech-tab-bottom"></div>
     </div>
-
-
   </div>
 </section>
 
 <section id="education">
   <h2>> Education</h2>
-  
   <div class="edu-container">
     <div class="edu-card">
       <div class="gears-box">
         <div class="gear gear-lg">⚙</div>
         <div class="gear gear-sm">⚙</div>
       </div>
-      
       <div class="edu-title">> Bachelor of Computing in Information Systems</div>
       <div class="edu-desc">University of Sri Jayewardenepura<br>GPA : 3.62</div>
-      
       <div class="edu-bar">| =============================         | _78%</div>
     </div>
     <div class="edu-card">
@@ -983,27 +575,19 @@ header h1 {
         <div class="gear gear-lg">⚙</div>
         <div class="gear gear-sm">⚙</div>
       </div>
-      
       <div class="edu-title">> G.C.E Advance level - Maths Stream</div>
       <div class="edu-desc">Kuliyapitiya Central College</div>
-      
       <div class="edu-bar">| ===================================== | 100%</div>
     </div>
-
     <div class="edu-card">
       <div class="gears-box">
         <div class="gear gear-lg">⚙</div>
         <div class="gear gear-sm">⚙</div>
       </div>
-      
       <div class="edu-title">> Grade 5 - Scholarship Exam</div>
       <div class="edu-desc">Narammala Mayurapadha Junior School</div>
-      
       <div class="edu-bar">| ===================================== | 100%</div>
     </div>
-
-
-
   </div>
 </section>
 
@@ -1015,70 +599,98 @@ header h1 {
 <li>✔ Status     : Available for Opportunities</li></section>
 
 <script>
-/* ===== SPLASH SCREEN & LOADER LOGIC ===== */
-const splashText = document.getElementById("splash-text");
+/* =========================================
+   REFACTORED SPLASH & BOOT SEQUENCE
+   ========================================= */
+const splashConsole = document.getElementById("splash-console");
 const pressKeyMsg = document.getElementById("press-key-msg");
 const splashScreen = document.getElementById("splash-screen");
 
-// State trackers
-let isTypingFinished = false;
+// Track actual content loading
 let isContentFullyLoaded = false;
 
-const bootMessages = [
-  "Initializing System...",
-  "Loading Modules...",
-  "Verifying Encryption Keys...",
-  "Establishing Secure Connection...",
-  "Downloading Assets...",
-  "Access Granted."
-];
-
-let msgIndex = 0;
-
-/* 1. START TYPING IMMEDIATELY (When DOM is ready) */
-document.addEventListener("DOMContentLoaded", () => {
-    typeSplash();
-});
-
-/* 2. WAIT FOR HEAVY CONTENT (Images, Music, Etc) */
 window.addEventListener("load", () => {
     isContentFullyLoaded = true;
-    checkBootSequence();
 });
 
-function typeSplash() {
-  if (msgIndex < bootMessages.length) {
-    let txt = bootMessages[msgIndex];
-    let charIndex = 0;
-    
-    const lineDiv = document.createElement('div');
-    splashText.appendChild(lineDiv);
+// Messages before the download bar
+const initialBootMessages = [
+  "Initializing Kernel...",
+  "Verifying Encryption Keys...",
+  "Connecting to Secure Server...",
+  "Handshake Authorized."
+];
 
-    const typeChar = setInterval(() => {
-      lineDiv.textContent += txt.charAt(charIndex);
-      charIndex++;
-      if (charIndex >= txt.length) {
-        clearInterval(typeChar);
-        msgIndex++;
-        setTimeout(typeSplash, 300); // Slight pause between lines
-      }
-    }, 20); // Typing speed
-  } else {
-    // Typing is done
-    isTypingFinished = true;
-    checkBootSequence();
-  }
+let lineIndex = 0;
+
+document.addEventListener("DOMContentLoaded", () => {
+    runInitialBoot();
+});
+
+function runInitialBoot() {
+    if (lineIndex < initialBootMessages.length) {
+        // Create new line
+        const div = document.createElement("div");
+        div.className = "splash-line";
+        div.textContent = "> " + initialBootMessages[lineIndex];
+        splashConsole.appendChild(div);
+        
+        lineIndex++;
+        // Randomize delay slightly for realism
+        setTimeout(runInitialBoot, Math.random() * 300 + 100);
+    } else {
+        // Start the "Downloading" phase
+        startDownloadSimulation();
+    }
 }
 
-function checkBootSequence() {
-    // Only show "Press Key" if BOTH typing is done AND content is loaded
-    if (isTypingFinished && isContentFullyLoaded) {
+function startDownloadSimulation() {
+    // create the download line
+    const dlLine = document.createElement("div");
+    dlLine.className = "splash-line";
+    dlLine.innerHTML = `> Downloading Assets... <span id="dl-percent">[ 0% ]</span><span class="splash-cursor">_</span>`;
+    splashConsole.appendChild(dlLine);
+
+    const percentSpan = document.getElementById("dl-percent");
+    let percent = 0;
+
+    const interval = setInterval(() => {
+        // If we reach 99%, we wait for actual window load
+        if (percent >= 99 && !isContentFullyLoaded) {
+            // Stuck at 99% until content loads
+            return; 
+        }
+
+        if (percent < 100) {
+            percent++;
+            percentSpan.textContent = `[ ${percent}% ]`;
+        } else {
+            clearInterval(interval);
+            finishBootSequence();
+        }
+    }, 40); // Speed of the counter
+}
+
+function finishBootSequence() {
+    // Remove the blinking cursor from the download line (optional)
+    const cursors = document.querySelectorAll(".splash-cursor");
+    cursors.forEach(c => c.style.display = "none");
+
+    // Add Access Granted message
+    setTimeout(() => {
+        const grantLine = document.createElement("div");
+        grantLine.className = "splash-line";
+        grantLine.style.color = "#00ff00"; // Green text for success
+        grantLine.innerHTML = `> ACCESS GRANTED.`;
+        splashConsole.appendChild(grantLine);
+
+        // Show Press Key Button
         setTimeout(() => {
             pressKeyMsg.style.display = "block";
             document.addEventListener("keydown", endSplash);
             document.addEventListener("click", endSplash);
-        }, 300);
-    }
+        }, 500);
+    }, 300);
 }
 
 function endSplash() {
@@ -1093,21 +705,23 @@ function endSplash() {
   musicBtn.style.display = "block";
 
   splashScreen.classList.add("fade-out");
-  document.body.classList.remove("no-scroll"); // Allow scrolling now
+  document.body.classList.remove("no-scroll");
   
   setTimeout(() => {
     splashScreen.style.display = "none";
-    boot(); // Start the inner terminal boot sequence
+    bootInnerTerminal(); // Start the inner site terminal
   }, 1000);
 }
 
-/* ===== MUSIC CONTROL LOGIC ===== */
+/* =========================================
+   MUSIC CONTROL
+   ========================================= */
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
 function updateMusicBtnText() {
   if (audio.paused) {
-    musicBtn.innerHTML = "🔇" ;
+    musicBtn.innerHTML = "🔇";
     musicBtn.classList.add("muted");
   } else {
     musicBtn.innerHTML = "🔊";
@@ -1123,10 +737,11 @@ function toggleMusic() {
   }
   updateMusicBtnText();
 }
-
 window.addEventListener("resize", updateMusicBtnText);
 
-/* ===== DOWNLOAD CV LOGIC ===== */
+/* =========================================
+   DOWNLOAD CV
+   ========================================= */
 function downloadCV() {
   const circle = document.querySelector('.progress-ring__circle');
   const btn = document.querySelector('.cv-btn');
@@ -1146,52 +761,37 @@ function downloadCV() {
   }, 1500);
 }
 
-
-/* ===== SKILL BARS LOGIC ===== */
+/* =========================================
+   SKILL BARS
+   ========================================= */
 const skillData = {
   web: [
-    { name: "HTML", level: 80 },
-    { name: "CSS", level: 70 },
-    { name: "JS", level: 60 },
-    { name: "React", level: 0 },
-    { name: "NextJS", level: 0 },
-    { name: "ExpressJS", level: 0 },
+    { name: "HTML", level: 80 }, { name: "CSS", level: 70 },
+    { name: "JS", level: 60 }, { name: "React", level: 0 },
+    { name: "NextJS", level: 0 }, { name: "ExpressJS", level: 0 },
     { name: "NodeJS", level: 0 }
   ],
   game: [
-    { name: "Unreal Engine", level: 80 },
-    { name: "Unity Engine", level: 2 }
+    { name: "Unreal Engine", level: 80 }, { name: "Unity Engine", level: 2 }
   ],
   ai: [
-    { name: "Python", level: 85 },
-    { name: "ML", level: 80 },
-    { name: "SQL", level: 85 },
-    { name: "Calculus", level: 60 },
-    { name: "Linear Algebra", level: 60 },
-    { name: "Probability", level: 65 },
-     { name: "Statistics", level: 65 },
-    { name: "Numpy", level: 70 },
-    { name: "Pandas", level: 50 },
-    { name: "Matplotlib", level: 40 },
-    { name: "NLP", level: 40 },
-    { name: "Deep Learning", level: 20 },
+    { name: "Python", level: 85 }, { name: "ML", level: 80 },
+    { name: "SQL", level: 85 }, { name: "Calculus", level: 60 },
+    { name: "Linear Algebra", level: 60 }, { name: "Probability", level: 65 },
+    { name: "Statistics", level: 65 }, { name: "Numpy", level: 70 },
+    { name: "Pandas", level: 50 }, { name: "Matplotlib", level: 40 },
+    { name: "NLP", level: 40 }, { name: "Deep Learning", level: 20 },
     { name: "MLOps", level: 10 }
   ],
   soft: [
-    { name: "Problem Solving", level: 80 },
-    { name: "Communication", level: 50 },
-    { name: "Team work", level: 90 },
-    { name: "Story telling", level: 70 }
+    { name: "Problem Solving", level: 80 }, { name: "Communication", level: 50 },
+    { name: "Team work", level: 90 }, { name: "Story telling", level: 70 }
   ],
   ml: [
-    { name: "Supervised", level: 85 },
-    { name: "Unsupervised", level: 80 },
-    { name: "Recom. System", level: 70 },
-    { name: "Reinforcement L.", level: 80 },
-    { name: "SciKit", level: 75 },
-    { name: "Feature Eng.", level: 85 },
-    { name: "Model Evaluation", level: 85 },
-    { name: "Overfitting", level: 80 }
+    { name: "Supervised", level: 85 }, { name: "Unsupervised", level: 80 },
+    { name: "Recom. System", level: 70 }, { name: "Reinforcement L.", level: 80 },
+    { name: "SciKit", level: 75 }, { name: "Feature Eng.", level: 85 },
+    { name: "Model Evaluation", level: 85 }, { name: "Overfitting", level: 80 }
   ]
 };
 
@@ -1199,7 +799,6 @@ function makeBar(percent, totalChars) {
   const filled = Math.round((percent / 100) * totalChars);
   return "#".repeat(filled) + "-".repeat(totalChars - filled);
 }
-
 
 function toggleSkill(element, id) {
   const box = document.getElementById(id);
@@ -1217,40 +816,33 @@ function toggleSkill(element, id) {
   box.innerHTML = "";
   element.innerHTML = element.innerHTML.replace("▸", "▾");
 
-  skillData[id].forEach((skill, index) => {
+  skillData[id].forEach((skill) => {
     const line = document.createElement("div");
     line.className = "progress-line";
-    
     let displayName = skill.name;
     if (isMobile && displayName.length > padLength) {
        displayName = displayName.substring(0, padLength - 1) + ".";
     }
-
     const label = `--- ${displayName.padEnd(padLength)} : `;
     line.textContent = label;
     box.appendChild(line);
-
     let current = 0;
     const interval = setInterval(() => {
       if (current <= skill.level) {
-        line.textContent =
-          label +
-          makeBar(current, barLength) +
-          ` = ${String(current).padStart(2, "0")}%`;
+        line.textContent = label + makeBar(current, barLength) + ` = ${String(current).padStart(2, "0")}%`;
         current++;
-      } else {
-        clearInterval(interval);
-      }
+      } else { clearInterval(interval); }
     }, 15);
   });
 }
 
-/* ===== MATRIX RAIN ===== */
+/* =========================================
+   MATRIX RAIN
+   ========================================= */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const fontSize = 18;
 const columns = canvas.width / fontSize;
@@ -1272,8 +864,9 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
-
-/* ===== TYPING UTILS & TERMINAL ===== */
+/* =========================================
+   INNER TERMINAL (Welcome Message)
+   ========================================= */
 function typeText(text, speed = 40, callback) {
   let i = 0;
   const interval = setInterval(() => {
@@ -1310,11 +903,11 @@ const bootLines = [
 
 let bootIndex = 0;
 
-function boot() {
+function bootInnerTerminal() {
   if (bootIndex < bootLines.length) {
     typeText(bootLines[bootIndex], 35, () => {
       bootIndex++;
-      setTimeout(boot, 250);
+      setTimeout(bootInnerTerminal, 250);
     });
   } else {
     menu.style.display = "block";
@@ -1323,7 +916,9 @@ function boot() {
   }
 }
 
-/* ===== COMMAND EXECUTION ===== */
+/* =========================================
+   COMMAND EXECUTION
+   ========================================= */
 const logs = [
   "",
   "[+] Establishing secure channel...",
@@ -1336,7 +931,6 @@ input.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const cmd = input.value.toLowerCase().trim();
     input.value = "";
-
     typeText("> " + cmd, 30, () => {
       let i = 0;
       function typeLog() {
