@@ -745,7 +745,7 @@ async function runBootSequence() {
     percentSpan.textContent = `${percent}%`;
     
     // Randomize speed to look like real processing (20ms to 80ms delay)
-    await wait(Math.random() * 60 + 20); 
+    await wait(Math.random() * 75 + 5); 
   }
   
   // If we hit 99% but assets still aren't ready, wait here
