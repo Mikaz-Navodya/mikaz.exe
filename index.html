@@ -71,7 +71,7 @@
   background: rgba(0, 0, 0, 0.85);
   border: 1px solid #00bfff;
   color: #00bfff;
-  padding: 10px 15px;
+  padding: 10px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
@@ -789,7 +789,7 @@ header h1 {
 </audio>
 
 <div id="music-control" class="music-btn" onclick="toggleMusic()">
-  [ 🔊 MUSIC: ON ]
+  🔊
 </div>
 
 <div id="splash-screen">
@@ -1028,10 +1028,10 @@ const musicBtn = document.getElementById("music-control");
 function updateMusicBtnText() {
   const isMobile = window.innerWidth <= 480;
   if (audio.paused) {
-    musicBtn.innerHTML = isMobile ? "🔇" : "[ 🔇 MUSIC: OFF ]";
+    musicBtn.innerHTML = "🔇" ;
     musicBtn.classList.add("muted");
   } else {
-    musicBtn.innerHTML = isMobile ? "🔊" : "[ 🔊 MUSIC: ON ]";
+    musicBtn.innerHTML = "🔊";
     musicBtn.classList.remove("muted");
   }
 }
