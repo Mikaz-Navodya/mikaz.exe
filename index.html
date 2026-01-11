@@ -1015,71 +1015,72 @@ header h1 {
 <li>✔ Status     : Available for Opportunities</li></section>
 
 <script>
-/* ===== SPLASH SCREEN & LOADER LOGIC ===== */
+/* ===== SPLASH SCREEN & ASSET LOADER LOGIC ===== */
 const splashText = document.getElementById("splash-text");
 const pressKeyMsg = document.getElementById("press-key-msg");
 const splashScreen = document.getElementById("splash-screen");
 
-// State trackers
-let isTypingFinished = false;
+// Content load tracker
 let isContentFullyLoaded = false;
-
-const bootMessages = [
-  "Initializing System...",
-  "Loading Modules...",
-  "Verifying Encryption Keys...",
-  "Establishing Secure Connection...",
-  "Downloading Assets...",
-  "Access Granted."
-];
-
-let msgIndex = 0;
-
-/* 1. START TYPING IMMEDIATELY (When DOM is ready) */
-document.addEventListener("DOMContentLoaded", () => {
-    typeSplash();
-});
-
-/* 2. WAIT FOR HEAVY CONTENT (Images, Music, Etc) */
 window.addEventListener("load", () => {
     isContentFullyLoaded = true;
-    checkBootSequence();
 });
 
-function typeSplash() {
-  if (msgIndex < bootMessages.length) {
-    let txt = bootMessages[msgIndex];
-    let charIndex = 0;
-    
-    const lineDiv = document.createElement('div');
-    splashText.appendChild(lineDiv);
-
-    const typeChar = setInterval(() => {
-      lineDiv.textContent += txt.charAt(charIndex);
-      charIndex++;
-      if (charIndex >= txt.length) {
-        clearInterval(typeChar);
-        msgIndex++;
-        setTimeout(typeSplash, 300); // Slight pause between lines
-      }
-    }, 20); // Typing speed
-  } else {
-    // Typing is done
-    isTypingFinished = true;
-    checkBootSequence();
-  }
+// Helper for delays
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function checkBootSequence() {
-    // Only show "Press Key" if BOTH typing is done AND content is loaded
-    if (isTypingFinished && isContentFullyLoaded) {
-        setTimeout(() => {
-            pressKeyMsg.style.display = "block";
-            document.addEventListener("keydown", endSplash);
-            document.addEventListener("click", endSplash);
-        }, 300);
+// Helper to type a single line
+async function typeLine(text) {
+    const div = document.createElement("div");
+    splashText.appendChild(div);
+    for (let char of text) {
+        div.textContent += char;
+        await wait(20); // typing speed
     }
+    await wait(300); // pause after line
+    return div;
 }
+
+// MAIN BOOT SEQUENCE
+async function runSplashSequence() {
+    await typeLine("Initializing System...");
+    await typeLine("Loading Modules...");
+    await typeLine("Verifying Encryption Keys...");
+
+    // --- "Downloading Assets" Logic ---
+    const assetDiv = document.createElement("div");
+    splashText.appendChild(assetDiv);
+    
+    // 1. Type the base message
+    const assetMsg = "Downloading Assets";
+    for (let char of assetMsg) {
+        assetDiv.textContent += char;
+        await wait(20);
+    }
+
+    // 2. Wait Loop: Append dots until window.onload fires
+    while (!isContentFullyLoaded) {
+        assetDiv.textContent += ".";
+        await wait(500); // Add a dot every half second
+    }
+
+    // 3. Finished Loading
+    assetDiv.textContent += " [OK]";
+    await wait(300);
+    
+    // --- Final Step ---
+    await typeLine("Access Granted.");
+    
+    // Show Press Any Key Prompt
+    pressKeyMsg.style.display = "block";
+    document.addEventListener("keydown", endSplash);
+    document.addEventListener("click", endSplash);
+}
+
+// Start immediately on DOM Ready
+document.addEventListener("DOMContentLoaded", runSplashSequence);
 
 function endSplash() {
   document.removeEventListener("keydown", endSplash);
@@ -1087,7 +1088,7 @@ function endSplash() {
   
   // Try to play music
   audio.volume = 0.4;
-  audio.play().catch(e => console.log("Audio play failed (user interaction required):", e));
+  audio.play().catch(e => console.log("Audio play failed:", e));
   
   updateMusicBtnText();
   musicBtn.style.display = "block";
