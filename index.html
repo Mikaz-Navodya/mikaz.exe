@@ -13,6 +13,19 @@
   font-family: "Courier New", monospace;
 }
 
+/* ===== CORE STYLES ===== */
+body {
+  background: black;
+  color: #00bfff;
+  overflow-x: hidden;
+}
+
+/* Helper to prevent scrolling during splash */
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 /* ===== SPLASH SCREEN STYLES ===== */
 #splash-screen {
   position: fixed;
@@ -228,12 +241,6 @@
   overflow-x: hidden; 
   opacity: 0.9;
 }
-/* ===== Core Styles ===== */
-body {
-  background: black;
-  color: #00bfff;
-  overflow-x: hidden;
-}
 
 h2 {
   border-left: 4px solid #00bfff;
@@ -385,7 +392,7 @@ header h1 {
   white-space: pre;
 }
 
-/* ===== Projects Scroll Cards (UPDATED WITH IMAGES) ===== */
+/* ===== Projects Scroll Cards ===== */
 .projects-container {
   display: flex;
   gap: 25px;
@@ -457,6 +464,31 @@ header h1 {
   box-shadow: 0 0 30px #00bfff, 0 0 60px #007bff;
 }
 
+.project-card:hover::before {
+  /* Slightly lighten the overlay on hover */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+/* --- Placeholder Images for Cards --- */
+.img-game {
+  background-image: url('images/project_card_images/game.png');
+}
+.img-web {
+  background-image: url('images/project_card_images/web.png');
+}
+.img-erp {
+  background-image: url('images/project_card_images/erp.png');
+}
+.img-ai {
+  background-image: url('images/project_card_images/ai.jpeg');
+}
+.img-nlp {
+  background-image: url('images/project_card_images/nlp.png');
+}
+.img-ml {
+  background-image: url('images/project_card_images/ml.png');
+}
+
 /* ===== About Section Terminal ===== */
 .terminal-view {
   border: 1px solid #00bfff;
@@ -471,7 +503,6 @@ header h1 {
   position: relative;
 }
 
-/* Optional: A top bar to look like a window */
 .terminal-header-bar {
   border-bottom: 1px solid #00bfff;
   padding-bottom: 10px;
@@ -493,34 +524,6 @@ header h1 {
   font-weight: bold;
   margin-right: 10px;
 }
-
-
-.project-card:hover::before {
-  /* Slightly lighten the overlay on hover */
-  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
-}
-
-/* --- Placeholder Images for Cards --- */
-/* Using generic tech/coding backgrounds */
-.img-game {
-  background-image: url('images/project_card_images/game.png');
-}
-.img-web {
-  background-image: url('images/project_card_images/web.png');
-}
-.img-erp {
-  background-image: url('images/project_card_images/erp.png');
-}
-.img-ai {
-  background-image: url('images/project_card_images/ai.jpeg');
-}
-.img-nlp {
-  background-image: url('images/project_card_images/nlp.png');
-}
-.img-ml {
-  background-image: url('images/project_card_images/ml.png');
-}
-
 
 /* ===== Experience Tech Frame Styles ===== */
 .mech-container {
@@ -631,6 +634,7 @@ header h1 {
   font-size: 0.9rem;
   line-height: 1.6;
 }
+
 /* ================= MOBILE RESPONSIVE FIXES ================= */
 @media (max-width: 1024px) {
   section {
@@ -778,13 +782,10 @@ header h1 {
     filter: blur(1px);
   }
 }
-
 </style>
 </head>
 
-<body>
-
-<audio id="bg-music" loop>
+<body class="no-scroll"> <audio id="bg-music" loop>
   <source src="background-music.mp3" type="audio/mp3">
 </audio>
 
@@ -839,13 +840,9 @@ header h1 {
       <span>[rw-r--r--]</span>
     </div>
 
-
-    
     <span class="term-line"><span class="term-prompt">> Curiosity led me to machine learning. Patterns kept me there.
     <br><br>> I enjoy exploring data, understanding how models learn, and turning raw information into meaningful predictions. For me, machine learning isn’t magic — it’s logic, experimentation, and constant refinement.
     <br><br>> I’m continuously learning, building, and questioning how intelligent systems behave in the real world — one model at a time.</span>
-
- 
   </div>
 </section>
 
@@ -904,8 +901,6 @@ header h1 {
       <h3>> AI Projects</h3>
       <p>Under Construction</p>
     </div>
-
-
   </div>
 </section>
 
@@ -1020,12 +1015,97 @@ header h1 {
 <li>✔ Status     : Available for Opportunities</li></section>
 
 <script>
+/* ===== SPLASH SCREEN & LOADER LOGIC ===== */
+const splashText = document.getElementById("splash-text");
+const pressKeyMsg = document.getElementById("press-key-msg");
+const splashScreen = document.getElementById("splash-screen");
+
+// State trackers
+let isTypingFinished = false;
+let isContentFullyLoaded = false;
+
+const bootMessages = [
+  "Initializing System...",
+  "Loading Modules...",
+  "Verifying Encryption Keys...",
+  "Establishing Secure Connection...",
+  "Downloading Assets...",
+  "Access Granted."
+];
+
+let msgIndex = 0;
+
+/* 1. START TYPING IMMEDIATELY (When DOM is ready) */
+document.addEventListener("DOMContentLoaded", () => {
+    typeSplash();
+});
+
+/* 2. WAIT FOR HEAVY CONTENT (Images, Music, Etc) */
+window.addEventListener("load", () => {
+    isContentFullyLoaded = true;
+    checkBootSequence();
+});
+
+function typeSplash() {
+  if (msgIndex < bootMessages.length) {
+    let txt = bootMessages[msgIndex];
+    let charIndex = 0;
+    
+    const lineDiv = document.createElement('div');
+    splashText.appendChild(lineDiv);
+
+    const typeChar = setInterval(() => {
+      lineDiv.textContent += txt.charAt(charIndex);
+      charIndex++;
+      if (charIndex >= txt.length) {
+        clearInterval(typeChar);
+        msgIndex++;
+        setTimeout(typeSplash, 300); // Slight pause between lines
+      }
+    }, 20); // Typing speed
+  } else {
+    // Typing is done
+    isTypingFinished = true;
+    checkBootSequence();
+  }
+}
+
+function checkBootSequence() {
+    // Only show "Press Key" if BOTH typing is done AND content is loaded
+    if (isTypingFinished && isContentFullyLoaded) {
+        setTimeout(() => {
+            pressKeyMsg.style.display = "block";
+            document.addEventListener("keydown", endSplash);
+            document.addEventListener("click", endSplash);
+        }, 300);
+    }
+}
+
+function endSplash() {
+  document.removeEventListener("keydown", endSplash);
+  document.removeEventListener("click", endSplash);
+  
+  // Try to play music
+  audio.volume = 0.4;
+  audio.play().catch(e => console.log("Audio play failed (user interaction required):", e));
+  
+  updateMusicBtnText();
+  musicBtn.style.display = "block";
+
+  splashScreen.classList.add("fade-out");
+  document.body.classList.remove("no-scroll"); // Allow scrolling now
+  
+  setTimeout(() => {
+    splashScreen.style.display = "none";
+    boot(); // Start the inner terminal boot sequence
+  }, 1000);
+}
+
 /* ===== MUSIC CONTROL LOGIC ===== */
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
 function updateMusicBtnText() {
-  const isMobile = window.innerWidth <= 480;
   if (audio.paused) {
     musicBtn.innerHTML = "🔇" ;
     musicBtn.classList.add("muted");
@@ -1044,7 +1124,6 @@ function toggleMusic() {
   updateMusicBtnText();
 }
 
-// Update music text on resize to switch between Emoji and Text
 window.addEventListener("resize", updateMusicBtnText);
 
 /* ===== DOWNLOAD CV LOGIC ===== */
@@ -1067,76 +1146,8 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== SPLASH SCREEN LOGIC ===== */
-const splashText = document.getElementById("splash-text");
-const pressKeyMsg = document.getElementById("press-key-msg");
-const splashScreen = document.getElementById("splash-screen");
 
-const bootMessages = [
-  "Initializing System...",
-  "Loading Modules...",
-  "Verifying Encryption Keys...",
-  "Establishing Secure Connection...",
-  "Access Granted."
-];
-
-let msgIndex = 0;
-
-function typeSplash() {
-  if (msgIndex < bootMessages.length) {
-    let txt = bootMessages[msgIndex];
-    let charIndex = 0;
-    
-    const lineDiv = document.createElement('div');
-    splashText.appendChild(lineDiv);
-
-    const typeChar = setInterval(() => {
-      lineDiv.textContent += txt.charAt(charIndex);
-      charIndex++;
-      if (charIndex >= txt.length) {
-        clearInterval(typeChar);
-        msgIndex++;
-        setTimeout(typeSplash, 400); 
-      }
-    }, 30); 
-  } else {
-    setTimeout(() => {
-      pressKeyMsg.style.display = "block";
-      document.addEventListener("keydown", endSplash);
-      document.addEventListener("click", endSplash);
-    }, 500);
-  }
-}
-
-
-function endSplash() {
-  document.removeEventListener("keydown", endSplash);
-  document.removeEventListener("click", endSplash);
-  
-  // Try to play music
-  audio.volume = 0.4;
-  audio.play().catch(e => console.log("Audio play failed:", e));
-  
-  // Initialize music button text correctly
-  updateMusicBtnText();
-
-  // Show Music Control (Fade it in effectively by setting display)
-  musicBtn.style.display = "block";
-
-  // Fade out splash
-  splashScreen.classList.add("fade-out");
-  
-  setTimeout(() => {
-    splashScreen.style.display = "none";
-    boot(); 
-  }, 1000);
-}
-
-window.onload = typeSplash;
-
-
-/* ===== ORIGINAL UTILITIES ===== */
-
+/* ===== SKILL BARS LOGIC ===== */
 const skillData = {
   web: [
     { name: "HTML", level: 80 },
@@ -1192,11 +1203,9 @@ function makeBar(percent, totalChars) {
 
 function toggleSkill(element, id) {
   const box = document.getElementById(id);
-  
-  // Mobile Adjustments for Skill Bar
   const isMobile = window.innerWidth <= 480;
-  const barLength = isMobile ? 12 : 25;   // Smaller bar on mobile
-  const padLength = isMobile ? 10 : 14;   // Shorter name padding on mobile
+  const barLength = isMobile ? 12 : 25;   
+  const padLength = isMobile ? 10 : 14;   
 
   if (box.style.display === "block") {
     box.style.display = "none";
@@ -1212,7 +1221,6 @@ function toggleSkill(element, id) {
     const line = document.createElement("div");
     line.className = "progress-line";
     
-    // Truncate name if it's too long for mobile to prevent overflow
     let displayName = skill.name;
     if (isMobile && displayName.length > padLength) {
        displayName = displayName.substring(0, padLength - 1) + ".";
@@ -1237,12 +1245,7 @@ function toggleSkill(element, id) {
   });
 }
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-/* ===== Matrix Rain ===== */
+/* ===== MATRIX RAIN ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -1264,7 +1267,13 @@ setInterval(() => {
   });
 }, 33);
 
-/* ===== Typing Utilities ===== */
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+
+/* ===== TYPING UTILS & TERMINAL ===== */
 function typeText(text, speed = 40, callback) {
   let i = 0;
   const interval = setInterval(() => {
@@ -1278,7 +1287,6 @@ function typeText(text, speed = 40, callback) {
   }, speed);
 }
 
-/* ===== Boot Sequence (Main Site) ===== */
 const output = document.getElementById("output");
 const menu = document.getElementById("commandMenu");
 const input = document.getElementById("commandInput");
@@ -1315,7 +1323,7 @@ function boot() {
   }
 }
 
-/* ===== Command Execution ===== */
+/* ===== COMMAND EXECUTION ===== */
 const logs = [
   "",
   "[+] Establishing secure channel...",
