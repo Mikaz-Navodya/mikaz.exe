@@ -6,7 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
-/* ===== GLOBAL STYLES ===== */
+  
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== MATRIX BACKGROUND ===== */
+
 canvas {
   position: fixed;
   top: 0;
@@ -31,7 +31,7 @@ canvas {
   opacity: 0.85;
 }
 
-/* ===== MUSIC CONTROL BUTTON ===== */
+
 .music-btn {
   position: fixed;
   top: 20px;
@@ -61,7 +61,7 @@ canvas {
   box-shadow: none;
 }
 
-/* ===== DOWNLOAD CV BUTTON STYLES ===== */
+
 .cv-fab-container {
   position: fixed;
   bottom: 30px;
@@ -115,7 +115,7 @@ canvas {
   transform-origin: 50% 50%;
 }
 
-/* ===== HEADER ===== */
+
 header {
   padding: 40px;
   text-align: center;
@@ -140,7 +140,6 @@ header h1 {
   51%, 100% { opacity: 0; }
 }
 
-/* ===== PROJECT LIST SECTION ===== */
 section {
   padding: 20px 10%;
 }
@@ -167,7 +166,7 @@ h2 {
   padding-left: 10px;
 }
 
-/* ===== PROJECT DETAILS PANEL ===== */
+
 .project-details {
   display: none;
   margin-top: 10px;
@@ -188,7 +187,7 @@ h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Project Image Styling */
+
 .project-img {
   width: 100%;
   height: auto;
@@ -203,7 +202,7 @@ h2 {
   text-align: justify;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
   header { padding: 25px 10px; }
   header h1 { font-size: 2.2rem; }
@@ -266,7 +265,7 @@ h2 {
 </section>
 
 <script>
-/* ===== MUSIC CONTROL LOGIC ===== */
+  
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
@@ -294,7 +293,7 @@ function toggleMusic() {
 
 window.addEventListener("resize", updateMusicBtnText);
 
-/* ===== DOWNLOAD CV LOGIC ===== */
+
 function downloadCV() {
   const circle = document.querySelector('.progress-ring__circle');
   const btn = document.querySelector('.cv-btn');
@@ -314,12 +313,10 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== PROJECT DATA & LOGIC ===== */
 
-// Define your projects here
 const projectData = {
   proj1: {
-    image: "images/project_images/sentiment.png",
+    image: "images/project_images/sentiment.jpg",
     description:"<a href='https://github.com/Mikaz-Navodya/NLP-basics' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
     <br><br>> In this project I implemented Sentiment analysis system from scratch using python and numpy library. I didn't use any AI support but I followed the guidance of course NLP specialization by deeplearning.AI"
   }
@@ -328,28 +325,24 @@ const projectData = {
 function toggleProject(element, id) {
   const box = document.getElementById(id);
   
-  // Close Logic
+  
   if (box.style.display === "block") {
     box.style.display = "none";
-    box.innerHTML = ""; // Clear content to reset
+    box.innerHTML = ""; 
     element.innerHTML = element.innerHTML.replace("▾", "▸");
     element.style.color = "#00bfff";
     return;
   }
   
-  // Open Logic
-  // Optional: Close other open projects (Accordion style) - uncomment next 3 lines if desired
-  // document.querySelectorAll('.project-details').forEach(el => el.style.display = 'none');
-  // document.querySelectorAll('.project-item').forEach(el => el.innerHTML = el.innerHTML.replace("▾", "▸"));
+
   
   const data = projectData[id];
   
   if (data) {
     box.style.display = "block";
     element.innerHTML = element.innerHTML.replace("▸", "▾");
-    element.style.color = "#ffffff"; // Highlight active title
+    element.style.color = "#ffffff"; 
     
-    // Inject Content
     box.innerHTML = `
       <img src="${data.image}" class="project-img" alt="Project Image">
       <p class="project-desc">> ${data.description}</p>
@@ -357,7 +350,7 @@ function toggleProject(element, id) {
   }
 }
 
-/* ===== MATRIX RAIN LOGIC ===== */
+
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 

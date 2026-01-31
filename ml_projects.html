@@ -6,7 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
-/* ===== GLOBAL STYLES ===== */
+  
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== MATRIX BACKGROUND ===== */
+
 canvas {
   position: fixed;
   top: 0;
@@ -31,7 +31,7 @@ canvas {
   opacity: 0.85;
 }
 
-/* ===== MUSIC CONTROL BUTTON ===== */
+/* musoc control button*/
 .music-btn {
   position: fixed;
   top: 20px;
@@ -61,7 +61,7 @@ canvas {
   box-shadow: none;
 }
 
-/* ===== DOWNLOAD CV BUTTON STYLES ===== */
+/* cv download button*/
 .cv-fab-container {
   position: fixed;
   bottom: 30px;
@@ -115,7 +115,7 @@ canvas {
   transform-origin: 50% 50%;
 }
 
-/* ===== HEADER ===== */
+
 header {
   padding: 40px;
   text-align: center;
@@ -140,7 +140,7 @@ header h1 {
   51%, 100% { opacity: 0; }
 }
 
-/* ===== PROJECT LIST SECTION ===== */
+/* project list*/
 section {
   padding: 20px 10%;
 }
@@ -167,7 +167,7 @@ h2 {
   padding-left: 10px;
 }
 
-/* ===== PROJECT DETAILS PANEL ===== */
+/* project details */
 .project-details {
   display: none;
   margin-top: 10px;
@@ -203,7 +203,7 @@ h2 {
   text-align: justify;
 }
 
-/* ===== RESPONSIVE ===== */
+/* responsive */
 @media (max-width: 768px) {
   header { padding: 25px 10px; }
   header h1 { font-size: 2.2rem; }
@@ -274,7 +274,7 @@ h2 {
 </section>
 
 <script>
-/* ===== MUSIC CONTROL LOGIC ===== */
+/*music control section*/
 const audio = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-control");
 
@@ -302,7 +302,7 @@ function toggleMusic() {
 
 window.addEventListener("resize", updateMusicBtnText);
 
-/* ===== DOWNLOAD CV LOGIC ===== */
+/* download cv function*/
 function downloadCV() {
   const circle = document.querySelector('.progress-ring__circle');
   const btn = document.querySelector('.cv-btn');
@@ -322,12 +322,12 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== PROJECT DATA & LOGIC ===== */
+/* project section */
 
-// Define your projects here
+
 const projectData = {
   proj1: {
-    image: "images/project_images/Scrtch.png",
+    image: "images/project_images/Scrtch.jpg",
     description:"<a href='https://github.com/Mikaz-Navodya/MachineLearningProjects/tree/main/MachineLearningTheory' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
     <br><br>> This project demonstrates a my understanding of machine learning fundamentals by implementing key algorithms entirely from scratch, without relying on high-level libraries such as Scikit-learn. Using NumPy, Pandas, and Matplotlib, I developed and visualized several supervised, unsupervised, and anomaly detection models, including:\
 <br><br>- Linear Regression for predicting continuous outcomes \
@@ -341,7 +341,7 @@ const projectData = {
 <br><br>Tools & Technologies: NumPy, Pandas, Matplotlib, Jupyter Notebook "
   },
   proj2: {
-    image: "images/project_images/SPP.png",
+    image: "images/project_images/SPP.jpg",
     description: "<a href='https://github.com/Mikaz-Navodya/Students-Performance-Predictor' target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
     <br><br>> A lightweight Streamlit app that predicts student exam performance from study habits and provides personalized advice. The project combines a pre-trained ML regressor (saved as model.pkl) with a rules-based recommendation engine and a context-aware sentiment feedback feature to support students.\
     <br><br>Other Contributors :\
@@ -349,7 +349,7 @@ const projectData = {
     <br>- Nilakshan Thejeswini"
   },
   proj3: {
-    image: "images/project_images/mushroom.png",
+    image: "images/project_images/mushroom.jpg",
     description: "<a href='https://github.com/Mikaz-Navodya/MachineLearningProjects/tree/main/StreamlitWebapp-MushroomClassifier'target='_blank' style='color: #00bfff; text-decoration: none; border: 1px solid #00bfff; padding: 5px 10px; display: inline-block;'>Github Link</a>\
     <br><br>This project is an interactive machine learning web application built using Streamlit and Python. Its primary purpose is to perform binary classification on the Mushroom dataset to predict whether a specific mushroom is Edible or Poisonous.\
     <br><br>Technical Stack\
@@ -364,28 +364,24 @@ const projectData = {
 function toggleProject(element, id) {
   const box = document.getElementById(id);
   
-  // Close Logic
+  // Close
   if (box.style.display === "block") {
     box.style.display = "none";
-    box.innerHTML = ""; // Clear content to reset
+    box.innerHTML = ""; 
     element.innerHTML = element.innerHTML.replace("▾", "▸");
     element.style.color = "#00bfff";
     return;
   }
   
-  // Open Logic
-  // Optional: Close other open projects (Accordion style) - uncomment next 3 lines if desired
-  // document.querySelectorAll('.project-details').forEach(el => el.style.display = 'none');
-  // document.querySelectorAll('.project-item').forEach(el => el.innerHTML = el.innerHTML.replace("▾", "▸"));
-  
+
   const data = projectData[id];
   
   if (data) {
     box.style.display = "block";
     element.innerHTML = element.innerHTML.replace("▸", "▾");
-    element.style.color = "#ffffff"; // Highlight active title
+    element.style.color = "#ffffff"; 
     
-    // Inject Content
+ 
     box.innerHTML = `
       <img src="${data.image}" class="project-img" alt="Project Image">
       <p class="project-desc">> ${data.description}</p>
@@ -393,7 +389,7 @@ function toggleProject(element, id) {
   }
 }
 
-/* ===== MATRIX RAIN LOGIC ===== */
+/* matrix */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
