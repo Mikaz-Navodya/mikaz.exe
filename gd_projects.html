@@ -6,7 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
-
+/* ===== GLOBAL STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
 }
 
-
+/* ===== MATRIX BACKGROUND ===== */
 canvas {
   position: fixed;
   top: 0;
@@ -31,7 +31,37 @@ canvas {
   opacity: 0.85;
 }
 
+/* ===== MUSIC CONTROL BUTTON ===== */
+.music-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid #00bfff;
+  color: #00bfff;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+  transition: all 0.3s ease;
+  user-select: none;
+  display: block; 
+}
 
+.music-btn:hover {
+  background: #00bfff;
+  color: black;
+  box-shadow: 0 0 20px #00bfff;
+}
+
+.music-btn.muted {
+  border-color: #555;
+  color: #777;
+  box-shadow: none;
+}
+
+/* ===== DOWNLOAD CV BUTTON STYLES ===== */
 .cv-fab-container {
   position: fixed;
   bottom: 30px;
@@ -175,6 +205,10 @@ h2 {
 
 @media (max-width: 480px) {
   header h1 { font-size: 1.9rem; }
+  .music-btn {
+    top: 10px; left: 10px;
+    padding: 8px 12px; font-size: 1.2rem;
+  }
   .cv-fab-container { width: 56px; height: 56px; }
   .cv-btn { width: 44px; height: 44px; font-size: 0.85rem; }
   canvas { filter: blur(1px); }
@@ -184,7 +218,13 @@ h2 {
 
 <body>
 
+<audio id="bg-music" loop>
+  <source src="background-music.mp3" type="audio/mp3">
+</audio>
 
+<div id="music-control" class="music-btn" onclick="toggleMusic()">
+  [ 🔊 MUSIC: ON ]
+</div>
 
 <div class="cv-fab-container" onclick="downloadCV()">
   <svg class="progress-ring" viewBox="0 0 100 100">
@@ -226,7 +266,35 @@ h2 {
 </section>
 
 <script>
+/* ===== MUSIC CONTROL LOGIC ===== */
+const audio = document.getElementById("bg-music");
+const musicBtn = document.getElementById("music-control");
 
+updateMusicBtnText();
+
+function updateMusicBtnText() {
+  const isMobile = window.innerWidth <= 480;
+  if (audio.paused) {
+    musicBtn.innerHTML =  "🔇" ;
+    musicBtn.classList.add("muted");
+  } else {
+    musicBtn.innerHTML ="🔊" ;
+    musicBtn.classList.remove("muted");
+  }
+}
+
+function toggleMusic() {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+  updateMusicBtnText();
+}
+
+window.addEventListener("resize", updateMusicBtnText);
+
+/* ===== DOWNLOAD CV LOGIC ===== */
 function downloadCV() {
   const circle = document.querySelector('.progress-ring__circle');
   const btn = document.querySelector('.cv-btn');
