@@ -6,7 +6,7 @@
 <title>Mikaz.exe</title>
 
 <style>
-/* ===== GLOBAL STYLES ===== */
+  
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +21,6 @@ body {
   min-height: 100vh;
 }
 
-/* ===== MATRIX BACKGROUND ===== */
 canvas {
   position: fixed;
   top: 0;
@@ -31,37 +30,6 @@ canvas {
   opacity: 0.85;
 }
 
-/* ===== MUSIC CONTROL BUTTON ===== */
-.music-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 2000;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid #00bfff;
-  color: #00bfff;
-  padding: 10px ;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
-  transition: all 0.3s ease;
-  user-select: none;
-  display: block; 
-}
-
-.music-btn:hover {
-  background: #00bfff;
-  color: black;
-  box-shadow: 0 0 20px #00bfff;
-}
-
-.music-btn.muted {
-  border-color: #555;
-  color: #777;
-  box-shadow: none;
-}
-
-/* ===== DOWNLOAD CV BUTTON STYLES ===== */
 .cv-fab-container {
   position: fixed;
   bottom: 30px;
@@ -115,7 +83,7 @@ canvas {
   transform-origin: 50% 50%;
 }
 
-/* ===== HEADER ===== */
+
 header {
   padding: 40px;
   text-align: center;
@@ -140,7 +108,7 @@ header h1 {
   51%, 100% { opacity: 0; }
 }
 
-/* ===== PROJECT LIST SECTION ===== */
+
 section {
   padding: 20px 10%;
 }
@@ -167,7 +135,7 @@ h2 {
   padding-left: 10px;
 }
 
-/* ===== PROJECT DETAILS PANEL ===== */
+
 .project-details {
   display: none;
   margin-top: 10px;
@@ -203,7 +171,6 @@ h2 {
   text-align: justify;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   header { padding: 25px 10px; }
   header h1 { font-size: 2.2rem; }
@@ -213,10 +180,6 @@ h2 {
 
 @media (max-width: 480px) {
   header h1 { font-size: 1.9rem; }
-  .music-btn {
-    top: 10px; left: 10px;
-    padding: 8px 12px; font-size: 1.2rem;
-  }
   .cv-fab-container { width: 56px; height: 56px; }
   .cv-btn { width: 44px; height: 44px; font-size: 0.85rem; }
   canvas { filter: blur(1px); }
@@ -226,13 +189,7 @@ h2 {
 
 <body>
 
-<audio id="bg-music" loop>
-  <source src="background-music.mp3" type="audio/mp3">
-</audio>
 
-<div id="music-control" class="music-btn" onclick="toggleMusic()">
-  [ 🔊 MUSIC: ON ]
-</div>
 
 <div class="cv-fab-container" onclick="downloadCV()">
   <svg class="progress-ring" viewBox="0 0 100 100">
@@ -266,35 +223,7 @@ h2 {
 </section>
 
 <script>
-/* ===== MUSIC CONTROL LOGIC ===== */
-const audio = document.getElementById("bg-music");
-const musicBtn = document.getElementById("music-control");
 
-updateMusicBtnText();
-
-function updateMusicBtnText() {
-  const isMobile = window.innerWidth <= 480;
-  if (audio.paused) {
-    musicBtn.innerHTML =  "🔇";
-    musicBtn.classList.add("muted");
-  } else {
-    musicBtn.innerHTML = "🔊" ;
-    musicBtn.classList.remove("muted");
-  }
-}
-
-function toggleMusic() {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
-  updateMusicBtnText();
-}
-
-window.addEventListener("resize", updateMusicBtnText);
-
-/* ===== DOWNLOAD CV LOGIC ===== */
 function downloadCV() {
   const circle = document.querySelector('.progress-ring__circle');
   const btn = document.querySelector('.cv-btn');
@@ -314,9 +243,7 @@ function downloadCV() {
   }, 1500);
 }
 
-/* ===== PROJECT DATA & LOGIC ===== */
-
-// Define your projects here
+/* project data */
 const projectData = {
   proj1: {
     image: "images/project_images/sentiment.png",
@@ -328,28 +255,22 @@ const projectData = {
 function toggleProject(element, id) {
   const box = document.getElementById(id);
   
-  // Close Logic
+
   if (box.style.display === "block") {
     box.style.display = "none";
-    box.innerHTML = ""; // Clear content to reset
+    box.innerHTML = "";
     element.innerHTML = element.innerHTML.replace("▾", "▸");
     element.style.color = "#00bfff";
     return;
   }
   
-  // Open Logic
-  // Optional: Close other open projects (Accordion style) - uncomment next 3 lines if desired
-  // document.querySelectorAll('.project-details').forEach(el => el.style.display = 'none');
-  // document.querySelectorAll('.project-item').forEach(el => el.innerHTML = el.innerHTML.replace("▾", "▸"));
-  
+
   const data = projectData[id];
   
   if (data) {
     box.style.display = "block";
     element.innerHTML = element.innerHTML.replace("▸", "▾");
-    element.style.color = "#ffffff"; // Highlight active title
-    
-    // Inject Content
+    element.style.color = "#ffffff"; 
     box.innerHTML = `
       <img src="${data.image}" class="project-img" alt="Project Image">
       <p class="project-desc">> ${data.description}</p>
@@ -357,7 +278,7 @@ function toggleProject(element, id) {
   }
 }
 
-/* ===== MATRIX RAIN LOGIC ===== */
+/* matriix rain */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
